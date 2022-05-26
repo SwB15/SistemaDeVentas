@@ -96,8 +96,8 @@ public class FuncionesProductos {
                 registros[8] = rs.getString("descuento");
                 registros[9] = rs.getString("categorias");
 
-                if (registros[7] == null) {
-                    registros[7] = "0";
+                if (registros[8] == null) {
+                    registros[8] = "0";
                 }
 
                 totalRegistros = totalRegistros + 1;

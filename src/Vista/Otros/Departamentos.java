@@ -39,7 +39,7 @@ public final class Departamentos extends javax.swing.JInternalFrame {
         txtIddepartamentos.setVisible(false);
         txtBuscar.setText("Buscar Departamento...");
         botonesTransparentes();
-        pmnuDepartamentos.add(pnlPopupMenu);
+        pmnuVentas.add(pnlPopupMenu);
 
         btnNuevo.setMnemonic(KeyEvent.VK_ENTER);
     }
@@ -113,7 +113,7 @@ public final class Departamentos extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pmnuDepartamentos = new javax.swing.JPopupMenu();
+        pmnuVentas = new javax.swing.JPopupMenu();
         pnlPopupMenu = new javax.swing.JPanel();
         pbtnEditar = new javax.swing.JButton();
         pbtnEliminar = new javax.swing.JButton();
@@ -132,10 +132,10 @@ public final class Departamentos extends javax.swing.JInternalFrame {
         lblCerrar = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
 
-        pmnuDepartamentos.setBorder(null);
-        pmnuDepartamentos.setBackground(new java.awt.Color(0,0,0,0));
-        pmnuDepartamentos.setBorder(null);
-        pmnuDepartamentos.setBorderPainted(false);
+        pmnuVentas.setBorder(null);
+        pmnuVentas.setBackground(new java.awt.Color(0,0,0,0));
+        pmnuVentas.setBorder(null);
+        pmnuVentas.setBorderPainted(false);
 
         pnlPopupMenu.setBackground(new java.awt.Color(0, 0, 0, 0));
         this.setBorder(null);
@@ -262,7 +262,7 @@ public final class Departamentos extends javax.swing.JInternalFrame {
 
             }
         ));
-        tblDepartamentos.setComponentPopupMenu(pmnuDepartamentos);
+        tblDepartamentos.setComponentPopupMenu(pmnuVentas);
         tblDepartamentos.setFocusable(false);
         tblDepartamentos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -442,10 +442,6 @@ public final class Departamentos extends javax.swing.JInternalFrame {
         mostrar(txtBuscar.getText());
     }//GEN-LAST:event_txtBuscarKeyReleased
 
-    private void pbtnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbtnEditarActionPerformed
-        editar();
-    }//GEN-LAST:event_pbtnEditarActionPerformed
-
     private void pbtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbtnEliminarActionPerformed
         eliminar();
     }//GEN-LAST:event_pbtnEliminarActionPerformed
@@ -467,6 +463,10 @@ public final class Departamentos extends javax.swing.JInternalFrame {
         fondoprueba = new ImageIcon(getClass().getResource("/Imagenes/Guardar32.png"));
         btnGuardar.setIcon(fondoprueba);
     }//GEN-LAST:event_btnGuardarMouseReleased
+
+    private void pbtnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbtnEditarActionPerformed
+        editar();
+    }//GEN-LAST:event_pbtnEditarActionPerformed
 
     //Metodos para llamar a los JDialog de Advertencia, Fallo y Realizado
     Frame f = JOptionPane.getFrameForComponent(this);
@@ -514,7 +514,7 @@ public final class Departamentos extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblFondoPopup;
     private javax.swing.JButton pbtnEditar;
     private javax.swing.JButton pbtnEliminar;
-    private javax.swing.JPopupMenu pmnuDepartamentos;
+    private javax.swing.JPopupMenu pmnuVentas;
     private javax.swing.JPanel pnlPopupMenu;
     private javax.swing.JTable tblDepartamentos;
     private javax.swing.JTextField txtBuscar;

@@ -12,12 +12,9 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/ventainformatica/src/Vista/Descuentos/Descuentos.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/ventainformatica/src/Vista/Productos/SeleccionarProductosVentas.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/ventainformatica/src/Vista/Productos/Productos.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/ventainformatica/src/Vista/Principal.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/ventainformatica/src/Vista/CompraVenta/Ventas1.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/ventainformatica/src/Funciones/FuncionesProductos.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/SistemaDeVentas/src/Vista/Otros/Departamentos.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/SistemaDeVentas/src/Vista/CompraVenta/Ventas.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/SistemaDeVentas/src/Vista/CompraVenta/Ventas1.java</file>
         </group>
     </open-files>
 </project-private>

@@ -31,6 +31,9 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Frame;
 import java.awt.HeadlessException;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -49,6 +52,7 @@ import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
@@ -102,11 +106,25 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         vender();
         botonesTransparentes();
 
-        txtIdproductos.setVisible(false);
+//        txtIdproductos.setVisible(false);
         txtIdventas.setText(String.valueOf(codigo));
         btnEliminar.setEnabled(false);
         btnAgregarProducto.setEnabled(false);
         txtCodigoProductos.requestFocus();
+
+        pmnuVentas.add(pnlPopupMenu);
+
+//        btnNuevo.setMnemonic(KeyEvent.VK_ENTER);
+        tblVentas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    Point p = e.getPoint();
+                    int rowNumber = tblVentas.rowAtPoint(p);
+                    tblVentas.getSelectionModel().setSelectionInterval(rowNumber, rowNumber);
+                }
+            }
+        });
     }
 
     public void botonesTransparentes() {
@@ -174,10 +192,10 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
     }
 
     public void ocultar_columnas() {
-        tblVentas.getColumnModel().getColumn(0).setMaxWidth(0);
-        tblVentas.getColumnModel().getColumn(0).setMinWidth(0);
-        tblVentas.getColumnModel().getColumn(0).setPreferredWidth(0);
-
+//        tblVentas.getColumnModel().getColumn(1).setMaxWidth(0);
+//        tblVentas.getColumnModel().getColumn(1).setMinWidth(0);
+//        tblVentas.getColumnModel().getColumn(1).setPreferredWidth(0);
+//
 //        tblVentas.getColumnModel().getColumn(9).setMaxWidth(0);
 //        tblVentas.getColumnModel().getColumn(9).setMinWidth(0);
 //        tblVentas.getColumnModel().getColumn(9).setPreferredWidth(0);
@@ -453,6 +471,104 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         }
     }
 
+    public void ivaDescuentos() {
+        int canti;
+        int cantxmayor;
+
+        txtTotalSinDescuento.setText("0");
+        txtTotalDescuento.setText("0");
+        for (i = 0; i < tblVentas.getRowCount(); i++) {
+            canti = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 4)));
+            cantxmayor = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 11)));
+
+            if (canti >= cantxmayor) {
+                total = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 4)).replace(".", "")) * Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 6)).replace(".", ""));
+            } else {
+                total = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 4)).replace(".", "")) * Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 5)).replace(".", ""));
+            }
+
+            txtTotalSinDescuento.setText(String.valueOf(Integer.parseInt(txtTotalSinDescuento.getText().replace(".", "")) + total));
+            //Agrega el punto de miles al monto total sin descuento
+            if (txtTotalSinDescuento.getText().length() > 3) {
+                String cadena = txtTotalSinDescuento.getText().replace(".", "");
+                txtTotalSinDescuento.setText(formateador14.format(Integer.parseInt(cadena)));
+            }
+        }
+
+        //Calculo de Iva
+        txtTotalSinDescuento.setText("0");
+        txtTotalDescuento.setText("0");
+        txtIva10.setText("0");
+        txtIva5.setText("0");
+        txtTotalIva.setText("0");
+
+        for (i = 0; i < tblVentas.getRowCount(); i++) {
+            canti = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 4)));
+            cantxmayor = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 11)));
+
+            if (canti >= cantxmayor) {
+                total = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 4)).replace(".", "")) * Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 6)).replace(".", ""));
+
+                int cantidadd = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 4)).replace(".", "")) * Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 6)).replace(".", ""));
+                descuento = (int) (cantidadd * Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 7)).replace(".", "")) / 100);
+                int total3 = cantidadd - descuento;
+
+                //Se realiza el calculo del iva
+                switch (Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 12)))) {
+                    case 10:
+                        iva = total3 / 11;
+                        iva = Integer.parseInt(txtIva10.getText().replace(".", "")) + iva;
+                        txtIva10.setText(String.valueOf(formateador14.format(iva)));
+                        break;
+                    case 5:
+                        iva = total3 / 21;
+                        iva = Integer.parseInt(txtIva5.getText().replace(".", "")) + iva;
+                        txtIva5.setText(String.valueOf(formateador14.format(iva)));
+                        break;
+                    case 0:
+                        iva = Integer.parseInt(txtExcentas.getText().replace(".", "")) + iva;
+                        txtExcentas.setText(String.valueOf(formateador14.format(iva)));
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                total = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 4)).replace(".", "")) * Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 5)).replace(".", ""));
+
+                int cantidadd = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 4)).replace(".", "")) * Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 5)).replace(".", ""));
+                descuento = (int) (cantidadd * Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 7)).replace(".", "")) / 100);
+                int total3 = cantidadd - descuento;
+
+                //Se realiza el calculo del iva
+                switch (Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 12)))) {
+                    case 10:
+                        iva = total3 / 11;
+                        iva = Integer.parseInt(txtIva10.getText().replace(".", "")) + iva;
+                        txtIva10.setText(String.valueOf(formateador14.format(iva)));
+                        break;
+                    case 5:
+                        iva = total3 / 21;
+                        iva = Integer.parseInt(txtIva5.getText().replace(".", "")) + iva;
+                        txtIva5.setText(String.valueOf(formateador14.format(iva)));
+                        break;
+                    case 0:
+                        iva = Integer.parseInt(txtExcentas.getText().replace(".", "")) + iva;
+                        txtExcentas.setText(String.valueOf(formateador14.format(iva)));
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            txtTotalSinDescuento.setText(String.valueOf(Integer.parseInt(txtTotalSinDescuento.getText().replace(".", "")) + total));
+            //Agrega el punto de miles al monto total sin descuento
+            if (txtTotalSinDescuento.getText().length() > 3) {
+                String cadena = txtTotalSinDescuento.getText().replace(".", "");
+                txtTotalSinDescuento.setText(formateador14.format(Integer.parseInt(cadena)));
+            }
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -462,6 +578,10 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pmnuVentas = new javax.swing.JPopupMenu();
+        pnlPopupMenu = new javax.swing.JPanel();
+        pbtnEliminar = new javax.swing.JButton();
+        lblFondoPopup = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         pnlClientes = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -534,6 +654,22 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         txtDescuento = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
+
+        pnlPopupMenu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pbtnEliminar.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        pbtnEliminar.setForeground(new java.awt.Color(0, 102, 255));
+        pbtnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Eliminar15.png"))); // NOI18N
+        pbtnEliminar.setText("Eliminar");
+        pbtnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pbtnEliminarActionPerformed(evt);
+            }
+        });
+        pnlPopupMenu.add(pbtnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 32, 104, 25));
+
+        lblFondoPopup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoPopup.png"))); // NOI18N
+        pnlPopupMenu.add(lblFondoPopup, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 60));
 
         setBorder(null);
         setOpaque(true);
@@ -682,7 +818,7 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setText("Cant");
-        pnlProductos.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 20, 47, -1));
+        pnlProductos.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 20, 60, -1));
 
         txtPrecioMinorista.setEditable(false);
         txtPrecioMinorista.setBackground(new java.awt.Color(255, 255, 255));
@@ -692,7 +828,7 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         spnCantidad.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         spnCantidad.setModel(new javax.swing.SpinnerNumberModel(1, 0, 999, 1));
         spnCantidad.setToolTipText("");
-        pnlProductos.add(spnCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 40, 47, -1));
+        pnlProductos.add(spnCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 40, 60, -1));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -735,6 +871,12 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
                 "Numero", "Id", "Codigo", "Productos", "Cantidad", "Precio", "Descuento", "Importe"
             }
         ));
+        tblVentas.setComponentPopupMenu(pmnuVentas);
+        tblVentas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblVentasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblVentas);
 
         pnlProductos.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 1250, 210));
@@ -767,10 +909,10 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel13.setText("%");
         pnlProductos.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(625, 40, -1, 20));
-        pnlProductos.add(txtDescuentoCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 40, 50, -1));
-        pnlProductos.add(txtCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 40, 50, -1));
-        pnlProductos.add(txtCantidadxMayor, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 10, 50, -1));
-        pnlProductos.add(txtIva, new org.netbeans.lib.awtextra.AbsoluteConstraints(719, 10, 50, -1));
+        pnlProductos.add(txtDescuentoCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 40, 50, -1));
+        pnlProductos.add(txtCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 40, 50, -1));
+        pnlProductos.add(txtCantidadxMayor, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 10, 50, -1));
+        pnlProductos.add(txtIva, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 10, 50, -1));
 
         jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoPanelVentas4.png"))); // NOI18N
         jLabel25.setText("jLabel25");
@@ -872,20 +1014,20 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         jPanel1.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 120));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 460, 350, 120));
-        getContentPane().add(txtIdproductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(787, 28, 22, -1));
+        getContentPane().add(txtIdproductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 50, -1));
 
         txtNumero.setEditable(false);
         txtNumero.setBackground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(txtNumero, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 30, 10, -1));
+        getContentPane().add(txtNumero, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, 50, -1));
 
         txtCantidad.setEditable(false);
         txtCantidad.setBackground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(txtCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 30, 10, -1));
+        getContentPane().add(txtCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, 50, -1));
 
         txtImporte.setEditable(false);
         txtImporte.setBackground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(txtImporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 30, 10, -1));
-        getContentPane().add(txtDescuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 30, 10, -1));
+        getContentPane().add(txtImporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 50, -1));
+        getContentPane().add(txtDescuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 50, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoVentas.png"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1330, 600));
@@ -932,30 +1074,17 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         } else {
             nuevo();
         }
+
+        txtTotalIva.setText(String.valueOf(Integer.parseInt(txtIva5.getText().replace(".", "")) + Integer.parseInt(txtIva10.getText().replace(".", ""))));
+
+        if (txtTotalIva.getText().length() > 3) {
+            String cadena = txtTotalIva.getText().replace(".", "");
+            txtTotalIva.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
     }//GEN-LAST:event_btnAgregarProductoActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        i = tblVentas.getSelectedRow();
-        if (i == -1) {
-            mensaje = "Seleccione una fila a Eliminar";
-            advertencia();
-        } else {
-            String total = txtTotal.getText();
-            int tot = Integer.parseInt(total);
-            String nums = (String) tblVentas.getValueAt(i, 6);
-            int entero = Integer.parseInt(nums);
-            totals = tot - entero;
-            txtTotal.setText(String.valueOf(totals));
-
-            this.modelo.removeRow(i);
-            n = n - 1;
-            btnEliminar.setEnabled(false);
-            int num = 1;
-            for (int w = 0; w < n; w = w + 1) {
-                tblVentas.setValueAt(num, w, 0);
-                num = num + 1;
-            }
-        }
+        eliminar();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
@@ -1081,6 +1210,30 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_lblCerrarMouseClicked
 
+    private void tblVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVentasMouseClicked
+        int seleccionar2 = tblVentas.rowAtPoint(evt.getPoint());
+
+        txtNumero.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 0)));
+        txtIdproductos.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 1)));
+        txtCodigoProductos.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 2)));
+        txtProductos.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 3)));
+        txtCantidad.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 4)));
+        txtPrecioMinorista.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 5)));
+        txtPrecioMayorista.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 6)));
+        txtDescuentoProductos.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 7)));
+        txtImporte.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 8)));
+        txtCategorias.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 9)));
+        txtDescuentoCategorias.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 10)));
+        txtCantidadxMayor.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 11)));
+        txtIva.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 12)));
+
+        btnEliminar.setEnabled(true);
+    }//GEN-LAST:event_tblVentasMouseClicked
+
+    private void pbtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbtnEliminarActionPerformed
+        eliminar();
+    }//GEN-LAST:event_pbtnEliminarActionPerformed
+
     //Metodos para llamar a los JDialog de Advertencia, Fallo y Realizado
     Frame f = JOptionPane.getFrameForComponent(this);
     String mensaje;
@@ -1156,7 +1309,11 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCerrar;
+    private javax.swing.JLabel lblFondoPopup;
+    private javax.swing.JButton pbtnEliminar;
+    private javax.swing.JPopupMenu pmnuVentas;
     private javax.swing.JPanel pnlClientes;
+    private javax.swing.JPanel pnlPopupMenu;
     private javax.swing.JPanel pnlProductos;
     private javax.swing.JSpinner spnCantidad;
     private javax.swing.JTable tblVentas;
@@ -1262,129 +1419,199 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
 
                 descuento = (int) (total * Integer.parseInt(txtDescuentoClientes.getText()) / 100);
                 total = total - descuento;
-
-                //Se realiza el calculo del iva
-                switch (Integer.parseInt(datos[12])) {
-                    case 10:
-                        iva = total / 11;
-                        iva = Integer.parseInt(txtIva10.getText().replace(".", "")) + iva;
-                        txtIva10.setText(String.valueOf(formateador14.format(iva)));
-                        break;
-                    case 5:
-                        iva = total / 21;
-                        iva = Integer.parseInt(txtIva5.getText().replace(".", "")) + iva;
-                        txtIva5.setText(String.valueOf(formateador14.format(iva)));
-                        break;
-                    case 0:
-                        iva = Integer.parseInt(txtExcentas.getText().replace(".", "")) + iva;
-                        txtExcentas.setText(String.valueOf(formateador14.format(iva)));
-                        break;
-                    default:
-                        break;
-                }
+//
+//                //Se realiza el calculo del iva
+//                switch (Integer.parseInt(datos[12])) {
+//                    case 10:
+//                        iva = total / 11;
+//                        iva = Integer.parseInt(txtIva10.getText().replace(".", "")) + iva;
+//                        txtIva10.setText(String.valueOf(formateador14.format(iva)));
+//                        break;
+//                    case 5:
+//                        iva = total / 21;
+//                        iva = Integer.parseInt(txtIva5.getText().replace(".", "")) + iva;
+//                        txtIva5.setText(String.valueOf(formateador14.format(iva)));
+//                        break;
+//                    case 0:
+//                        iva = Integer.parseInt(txtExcentas.getText().replace(".", "")) + iva;
+//                        txtExcentas.setText(String.valueOf(formateador14.format(iva)));
+//                        break;
+//                    default:
+//                        break;
+//                }
 
                 //Agrega el punto de miles al monto total
                 if (String.valueOf(total).length() > 3) {
                     String cadena = String.valueOf(total).replace(".", "");
                     total2 = formateador14.format(Integer.parseInt(cadena));
                 }
-                datos[8] = total2;
                 datos[7] = txtDescuentoClientes.getText();
-            }
-        } else if (txtDescuentoCategorias.getText().length() > 0) {
-            if (Integer.parseInt(txtDescuentoCategorias.getText()) > 0) {
-                int canti = Integer.parseInt(datos[4]);
-                int cantxmayor = Integer.parseInt(txtCantidadxMayor.getText());
-
-                txtDescuentoProductos.setText("0");
-                if (canti >= cantxmayor) {
-                    total = Integer.parseInt(datos[4].replace(".", "")) * Integer.parseInt(datos[6].replace(".", ""));
-                } else {
-                    total = Integer.parseInt(datos[4].replace(".", "")) * Integer.parseInt(datos[5].replace(".", ""));
-                }
-
-                descuento = (int) (total * Integer.parseInt(txtDescuentoCategorias.getText()) / 100);
-                total = total - descuento;
-
-                //Se realiza el calculo del iva
-                switch (Integer.parseInt(datos[12])) {
-                    case 10:
-                        iva = total / 11;
-                        iva = Integer.parseInt(txtIva10.getText().replace(".", "")) + iva;
-                        txtIva10.setText(String.valueOf(formateador14.format(iva)));
-                        break;
-                    case 5:
-                        iva = total / 21;
-                        iva = Integer.parseInt(txtIva5.getText().replace(".", "")) + iva;
-                        txtIva5.setText(String.valueOf(formateador14.format(iva)));
-                        break;
-                    case 0:
-                        iva = Integer.parseInt(txtExcentas.getText().replace(".", "")) + iva;
-                        txtExcentas.setText(String.valueOf(formateador14.format(iva)));
-                        break;
-                    default:
-                        break;
-                }
-
-                //Agrega el punto de miles al monto total
-                if (String.valueOf(total).length() > 3) {
-                    String cadena = String.valueOf(total).replace(".", "");
-                    total2 = formateador14.format(Integer.parseInt(cadena));
-                }
                 datos[8] = total2;
-                datos[7] = txtDescuentoCategorias.getText();
-            }
-        } else if (txtDescuentoProductos.getText().length() > 0) {
-            if (Integer.parseInt(txtDescuentoProductos.getText()) > 0) {
-                int canti = Integer.parseInt(datos[4]);
-                int cantxmayor = Integer.parseInt(txtCantidadxMayor.getText());
 
-                if (canti >= cantxmayor) {
-                    total = Integer.parseInt(datos[4].replace(".", "")) * Integer.parseInt(datos[6].replace(".", ""));
-                } else {
-                    total = Integer.parseInt(datos[4].replace(".", "")) * Integer.parseInt(datos[5].replace(".", ""));
+//                //Se vuelve a sumar el total con el descuento para obtener el monto total sin el descuento
+//                //Esto se realiza porque cerca de la linea 1343 se sobreescribe el monto total por el monto total aplicando el descuento
+//                int total3 = total + descuento;
+//
+//                //Agrega el total sin descuento al JTextField
+//                txtTotalSinDescuento.setText(String.valueOf(Integer.parseInt(txtTotalSinDescuento.getText().replace(".", "")) + total3));
+//
+//                //Agrega el punto de miles al monto total sin descuento
+//                if (txtTotalSinDescuento.getText().length() > 3) {
+//                    String cadena = txtTotalSinDescuento.getText().replace(".", "");
+//                    txtTotalSinDescuento.setText(formateador14.format(Integer.parseInt(cadena)));
+//                }
+            } else if (txtDescuentoCategorias.getText().length() > 0) {
+                if (Integer.parseInt(txtDescuentoCategorias.getText()) > 0) {
+                    int canti = Integer.parseInt(datos[4]);
+                    int cantxmayor = Integer.parseInt(txtCantidadxMayor.getText());
+
+                    txtDescuentoProductos.setText("0");
+                    if (canti >= cantxmayor) {
+                        total = Integer.parseInt(datos[4].replace(".", "")) * Integer.parseInt(datos[6].replace(".", ""));
+                    } else {
+                        total = Integer.parseInt(datos[4].replace(".", "")) * Integer.parseInt(datos[5].replace(".", ""));
+                    }
+
+                    descuento = (int) (total * Integer.parseInt(txtDescuentoCategorias.getText()) / 100);
+                    total = total - descuento;
+//
+//                    //Se realiza el calculo del iva
+//                    switch (Integer.parseInt(datos[12])) {
+//                        case 10:
+//                            iva = total / 11;
+//                            iva = Integer.parseInt(txtIva10.getText().replace(".", "")) + iva;
+//                            txtIva10.setText(String.valueOf(formateador14.format(iva)));
+//                            break;
+//                        case 5:
+//                            iva = total / 21;
+//                            iva = Integer.parseInt(txtIva5.getText().replace(".", "")) + iva;
+//                            txtIva5.setText(String.valueOf(formateador14.format(iva)));
+//                            break;
+//                        case 0:
+//                            iva = Integer.parseInt(txtExcentas.getText().replace(".", "")) + iva;
+//                            txtExcentas.setText(String.valueOf(formateador14.format(iva)));
+//                            break;
+//                        default:
+//                            break;
+//                    }
+
+                    //Agrega el punto de miles al monto total
+                    if (String.valueOf(total).length() > 3) {
+                        String cadena = String.valueOf(total).replace(".", "");
+                        total2 = formateador14.format(Integer.parseInt(cadena));
+                    }
+                    datos[8] = total2;
+                    datos[7] = txtDescuentoCategorias.getText();
+
+//                    //Se vuelve a sumar el total con el descuento para obtener el monto total sin el descuento
+//                    //Esto se realiza porque cerca de la linea 1343 se sobreescribe el monto total por el monto total aplicando el descuento
+//                    int total3 = total + descuento;
+//
+//                    //Agrega el total sin descuento al JTextField
+//                    txtTotalSinDescuento.setText(String.valueOf(Integer.parseInt(txtTotalSinDescuento.getText().replace(".", "")) + total3));
+//
+//                    //Agrega el punto de miles al monto total sin descuento
+//                    if (txtTotalSinDescuento.getText().length() > 3) {
+//                        String cadena = txtTotalSinDescuento.getText().replace(".", "");
+//                        txtTotalSinDescuento.setText(formateador14.format(Integer.parseInt(cadena)));
+//                    }
+                } else if (txtDescuentoProductos.getText().length() > 0) {
+                    if (Integer.parseInt(txtDescuentoProductos.getText()) > 0) {
+                        int canti = Integer.parseInt(datos[4]);
+                        int cantxmayor = Integer.parseInt(txtCantidadxMayor.getText());
+
+                        if (canti >= cantxmayor) {
+                            total = Integer.parseInt(datos[4].replace(".", "")) * Integer.parseInt(datos[6].replace(".", ""));
+                        } else {
+                            total = Integer.parseInt(datos[4].replace(".", "")) * Integer.parseInt(datos[5].replace(".", ""));
+                        }
+
+                        descuento = (int) (total * Integer.parseInt(txtDescuentoProductos.getText()) / 100);
+                        total = total - descuento;
+
+//                        //Se realiza el calculo del iva
+//                        switch (Integer.parseInt(datos[12])) {
+//                            case 10:
+//                                iva = total / 11;
+//                                iva = Integer.parseInt(txtIva10.getText().replace(".", "")) + iva;
+//                                txtIva10.setText(String.valueOf(formateador14.format(iva)));
+//                                break;
+//                            case 5:
+//                                iva = total / 21;
+//                                iva = Integer.parseInt(txtIva5.getText().replace(".", "")) + iva;
+//                                txtIva5.setText(String.valueOf(formateador14.format(iva)));
+//                                break;
+//                            case 0:
+//                                iva = Integer.parseInt(txtExcentas.getText().replace(".", "")) + iva;
+//                                txtExcentas.setText(String.valueOf(formateador14.format(iva)));
+//                                break;
+//                            default:
+//                                break;
+//                        }
+
+                        //Agrega el punto de miles al monto total
+                        if (String.valueOf(total).length() > 3) {
+                            String cadena = String.valueOf(total).replace(".", "");
+                            total2 = formateador14.format(Integer.parseInt(cadena));
+                        }
+                        datos[8] = total2;
+                        datos[7] = txtDescuentoProductos.getText();
+
+//                        //Se vuelve a sumar el total con el descuento para obtener el monto total sin el descuento
+//                        //Esto se realiza porque cerca de la linea 1343 se sobreescribe el monto total por el monto total aplicando el descuento
+//                        int total3 = total + descuento;
+//
+//                        //Agrega el total sin descuento al JTextField
+//                        txtTotalSinDescuento.setText(String.valueOf(Integer.parseInt(txtTotalSinDescuento.getText().replace(".", "")) + total3));
+//
+//                        //Agrega el punto de miles al monto total sin descuento
+//                        if (txtTotalSinDescuento.getText().length() > 3) {
+//                            String cadena = txtTotalSinDescuento.getText().replace(".", "");
+//                            txtTotalSinDescuento.setText(formateador14.format(Integer.parseInt(cadena)));
+//                        }
+                    }
                 }
-
-                descuento = (int) (total * Integer.parseInt(txtDescuentoProductos.getText()) / 100);
-                total = total - descuento;
-
-                //Se realiza el calculo del iva
-                switch (Integer.parseInt(datos[12])) {
-                    case 10:
-                        iva = total / 11;
-                        iva = Integer.parseInt(txtIva10.getText().replace(".", "")) + iva;
-                        txtIva10.setText(String.valueOf(formateador14.format(iva)));
-                        break;
-                    case 5:
-                        iva = total / 21;
-                        iva = Integer.parseInt(txtIva5.getText().replace(".", "")) + iva;
-                        txtIva5.setText(String.valueOf(formateador14.format(iva)));
-                        break;
-                    case 0:
-                        iva = Integer.parseInt(txtExcentas.getText().replace(".", "")) + iva;
-                        txtExcentas.setText(String.valueOf(formateador14.format(iva)));
-                        break;
-                    default:
-                        break;
-                }
-
-                //Agrega el punto de miles al monto total
-                if (String.valueOf(total).length() > 3) {
-                    String cadena = String.valueOf(total).replace(".", "");
-                    total2 = formateador14.format(Integer.parseInt(cadena));
-                }
-                datos[8] = total2;
-                datos[7] = txtDescuentoProductos.getText();
             }
         }
 
         modelo.addRow(datos);
         tblVentas.setModel(modelo);
 
+        int canti;
+        int cantxmayor;
+
+//        txtTotalSinDescuento.setText("0");
+//        txtTotalDescuento.setText("0");
+//        for (i = 0; i < tblVentas.getRowCount(); i++) {
+//            canti = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 4)));
+//            cantxmayor = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 11)));
+//
+//            if (canti >= cantxmayor) {
+//                total = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 4)).replace(".", "")) * Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 6)).replace(".", ""));
+//            } else {
+//                total = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 4)).replace(".", "")) * Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 5)).replace(".", ""));
+//            }
+//
+//            txtTotalSinDescuento.setText(String.valueOf(Integer.parseInt(txtTotalSinDescuento.getText().replace(".", "")) + total));
+//            //Agrega el punto de miles al monto total sin descuento
+//            if (txtTotalSinDescuento.getText().length() > 3) {
+//                String cadena = txtTotalSinDescuento.getText().replace(".", "");
+//                txtTotalSinDescuento.setText(formateador14.format(Integer.parseInt(cadena)));
+//            }
+//        }
+
+        ivaDescuentos();
         totalizar();
 
         c++;
         vender();
+
+        txtTotalDescuento.setText(String.valueOf(Integer.parseInt(txtTotalSinDescuento.getText().replace(".", "")) - Integer.parseInt(txtTotal.getText().replace(".", ""))));
+        //Agrega el punto de miles al monto total sin descuento
+        if (txtTotalDescuento.getText().length() > 3) {
+            String cadena = txtTotalDescuento.getText().replace(".", "");
+            txtTotalDescuento.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
     }
 
     public void actualizar() {
@@ -1419,57 +1646,8 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
                 int cantxmayor = Integer.parseInt(txtCantidadxMayor.getText());
 
                 if (canti >= cantxmayor) {
-                    int suma = cant2 * Integer.parseInt(txtPrecioMayorista.getText().replace(".", ""));
-                    descuento = (int) (suma * Integer.parseInt(txtDescuentoClientes.getText()) / 100);
-                    total = suma - descuento;
-
-                    //Se realiza el calculo del iva
-                    switch (Integer.parseInt(txtIva.getText())) {
-                        case 10:
-                            iva = total / 11;
-                            iva = Integer.parseInt(txtIva10.getText().replace(".", "")) + iva;
-                            txtIva10.setText(String.valueOf(formateador14.format(iva)));
-                            break;
-                        case 5:
-                            iva = total / 21;
-                            iva = Integer.parseInt(txtIva5.getText().replace(".", "")) + iva;
-                            txtIva5.setText(String.valueOf(formateador14.format(iva)));
-                            break;
-                        case 0:
-                            iva = Integer.parseInt(txtExcentas.getText().replace(".", "")) + iva;
-                            txtExcentas.setText(String.valueOf(formateador14.format(iva)));
-                            break;
-                        default:
-                            break;
-                    }
-
                     total = Integer.parseInt(txtCantidad.getText()) * Integer.parseInt(txtPrecioMayorista.getText().replace(".", ""));
                 } else {
-
-                    int suma = cant2 * Integer.parseInt(txtPrecioMinorista.getText().replace(".", ""));
-                    descuento = (int) (suma * Integer.parseInt(txtDescuentoClientes.getText()) / 100);
-                    total = suma - descuento;
-
-                    //Se realiza el calculo del iva
-                    switch (Integer.parseInt(txtIva.getText())) {
-                        case 10:
-                            iva = total / 11;
-                            iva = Integer.parseInt(txtIva10.getText().replace(".", "")) + iva;
-                            txtIva10.setText(String.valueOf(formateador14.format(iva)));
-                            break;
-                        case 5:
-                            iva = total / 21;
-                            iva = Integer.parseInt(txtIva5.getText().replace(".", "")) + iva;
-                            txtIva5.setText(String.valueOf(formateador14.format(iva)));
-                            break;
-                        case 0:
-                            iva = Integer.parseInt(txtExcentas.getText().replace(".", "")) + iva;
-                            txtExcentas.setText(String.valueOf(formateador14.format(iva)));
-                            break;
-                        default:
-                            break;
-                    }
-
                     total = Integer.parseInt(txtCantidad.getText()) * Integer.parseInt(txtPrecioMinorista.getText().replace(".", ""));
                 }
 
@@ -1484,65 +1662,16 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
 
                 txtImporte.setText(total2);
                 txtDescuentoClientes.setText(String.valueOf(tblVentas.getValueAt(i, 7)));
-            } else if (txtDescuentoCategorias.getText().length() > 0) {
 
+            } else if (txtDescuentoCategorias.getText().length() > 0) {
                 if (Integer.parseInt(txtDescuentoCategorias.getText()) > 0) {
                     int canti = Integer.parseInt(txtCantidad.getText());
                     int cantxmayor = Integer.parseInt(txtCantidadxMayor.getText());
                     txtDescuentoProductos.setText("0");
 
                     if (canti >= cantxmayor) {
-                        int suma = cant2 * Integer.parseInt(txtPrecioMayorista.getText().replace(".", ""));
-                        descuento = (int) (suma * Integer.parseInt(txtDescuentoCategorias.getText()) / 100);
-                        total = suma - descuento;
-
-                        //Se realiza el calculo del iva
-                        switch (Integer.parseInt(txtIva.getText())) {
-                            case 10:
-                                iva = total / 11;
-                                iva = Integer.parseInt(txtIva10.getText().replace(".", "")) + iva;
-                                txtIva10.setText(String.valueOf(formateador14.format(iva)));
-                                break;
-                            case 5:
-                                iva = total / 21;
-                                iva = Integer.parseInt(txtIva5.getText().replace(".", "")) + iva;
-                                txtIva5.setText(String.valueOf(formateador14.format(iva)));
-                                break;
-                            case 0:
-                                iva = Integer.parseInt(txtExcentas.getText().replace(".", "")) + iva;
-                                txtExcentas.setText(String.valueOf(formateador14.format(iva)));
-                                break;
-                            default:
-                                break;
-                        }
-
                         total = Integer.parseInt(txtCantidad.getText()) * Integer.parseInt(txtPrecioMayorista.getText().replace(".", ""));
                     } else {
-
-                        int suma = cant2 * Integer.parseInt(txtPrecioMinorista.getText().replace(".", ""));
-                        descuento = (int) (suma * Integer.parseInt(txtDescuentoCategorias.getText()) / 100);
-                        total = suma - descuento;
-
-                        //Se realiza el calculo del iva
-                        switch (Integer.parseInt(txtIva.getText())) {
-                            case 10:
-                                iva = total / 11;
-                                iva = Integer.parseInt(txtIva10.getText().replace(".", "")) + iva;
-                                txtIva10.setText(String.valueOf(formateador14.format(iva)));
-                                break;
-                            case 5:
-                                iva = total / 21;
-                                iva = Integer.parseInt(txtIva5.getText().replace(".", "")) + iva;
-                                txtIva5.setText(String.valueOf(formateador14.format(iva)));
-                                break;
-                            case 0:
-                                iva = Integer.parseInt(txtExcentas.getText().replace(".", "")) + iva;
-                                txtExcentas.setText(String.valueOf(formateador14.format(iva)));
-                                break;
-                            default:
-                                break;
-                        }
-
                         total = Integer.parseInt(txtCantidad.getText()) * Integer.parseInt(txtPrecioMinorista.getText().replace(".", ""));
                     }
 
@@ -1557,63 +1686,14 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
 
                     txtImporte.setText(total2);
                     txtDescuentoCategorias.setText(String.valueOf(tblVentas.getValueAt(i, 7)));
-
                 } else if (txtProductos.getText().length() > 0) {
                     if (Integer.parseInt(txtProductos.getText()) > 0) {
                         int canti = Integer.parseInt(txtCantidad.getText());
                         int cantxmayor = Integer.parseInt(txtCantidadxMayor.getText());
 
                         if (canti >= cantxmayor) {
-                            total = Integer.parseInt(txtCantidad.getText()) * Integer.parseInt(txtPrecioMayorista.getText());
-                            int suma = cant2 * Integer.parseInt(txtPrecioMayorista.getText().replace(".", ""));
-
-                            //Se realiza el calculo del iva
-                            switch (Integer.parseInt(txtIva.getText())) {
-                                case 10:
-                                    iva = suma / 11;
-                                    iva = Integer.parseInt(txtIva10.getText().replace(".", "")) + iva;
-                                    txtIva10.setText(String.valueOf(formateador14.format(iva)));
-                                    break;
-                                case 5:
-                                    iva = suma / 21;
-                                    iva = Integer.parseInt(txtIva5.getText().replace(".", "")) + iva;
-                                    txtIva5.setText(String.valueOf(formateador14.format(iva)));
-                                    break;
-                                case 0:
-                                    iva = Integer.parseInt(txtExcentas.getText().replace(".", "")) + iva;
-                                    txtExcentas.setText(String.valueOf(formateador14.format(iva)));
-                                    break;
-                                default:
-                                    break;
-                            }
-
                             total = Integer.parseInt(txtCantidad.getText()) * Integer.parseInt(txtPrecioMayorista.getText().replace(".", ""));
                         } else {
-
-                            int suma = cant2 * Integer.parseInt(txtPrecioMinorista.getText().replace(".", ""));
-                            descuento = (int) (suma * Integer.parseInt(txtDescuentoProductos.getText()) / 100);
-                            total = suma - descuento;
-
-                            //Se realiza el calculo del iva
-                            switch (Integer.parseInt(txtIva.getText())) {
-                                case 10:
-                                    iva = suma / 11;
-                                    iva = Integer.parseInt(txtIva10.getText().replace(".", "")) + iva;
-                                    txtIva10.setText(String.valueOf(formateador14.format(iva)));
-                                    break;
-                                case 5:
-                                    iva = suma / 21;
-                                    iva = Integer.parseInt(txtIva5.getText().replace(".", "")) + iva;
-                                    txtIva5.setText(String.valueOf(formateador14.format(iva)));
-                                    break;
-                                case 0:
-                                    iva = Integer.parseInt(txtExcentas.getText().replace(".", "")) + iva;
-                                    txtExcentas.setText(String.valueOf(formateador14.format(iva)));
-                                    break;
-                                default:
-                                    break;
-                            }
-
                             total = Integer.parseInt(txtCantidad.getText()) * Integer.parseInt(txtPrecioMinorista.getText().replace(".", ""));
                         }
 
@@ -1636,7 +1716,40 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         modelo.setValueAt(txtCantidad.getText(), i, 4);
         modelo.setValueAt(txtImporte.getText(), i, 8);
 
+        ivaDescuentos();
         totalizar();
         vender();
+
+        txtTotalDescuento.setText(String.valueOf(Integer.parseInt(txtTotalSinDescuento.getText().replace(".", "")) - Integer.parseInt(txtTotal.getText().replace(".", ""))));
+        //Agrega el punto de miles al monto total sin descuento
+        if (txtTotalDescuento.getText().length() > 3) {
+            String cadena = txtTotalDescuento.getText().replace(".", "");
+            txtTotalDescuento.setText(formateador14.format(Integer.parseInt(cadena)));
+        }
+    }
+    
+    public void eliminar(){
+        i = tblVentas.getSelectedRow();
+        if (i == -1) {
+            mensaje = "Seleccione una fila a Eliminar";
+            advertencia();
+        } else {
+            String total = txtTotal.getText().replace(".", "");
+            int tot = Integer.parseInt(total);
+            String nums = (String) tblVentas.getValueAt(i, 8);
+            int entero = Integer.parseInt(nums.replace(".", ""));
+            totals = tot - entero;
+            txtTotal.setText(String.valueOf(totals));
+
+            this.modelo.removeRow(i);
+            n = n - 1;
+            btnEliminar.setEnabled(false);
+            int num = 1;
+            for (int w = 0; w < n; w = w + 1) {
+                tblVentas.setValueAt(num, w, 0);
+                num = num + 1;
+            }
+            ivaDescuentos();
+        }
     }
 }
