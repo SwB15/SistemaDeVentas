@@ -35,7 +35,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public final class ListaVentas extends javax.swing.JInternalFrame {
 
-    Ventas form = new Ventas();
+    Ventas1 form = new Ventas1();
     FuncionesAuditoria audi = new FuncionesAuditoria();
     FuncionesVentas funcion = new FuncionesVentas();
     DatosVentas datos = new DatosVentas();
@@ -61,15 +61,15 @@ public final class ListaVentas extends javax.swing.JInternalFrame {
         mostrar("");
         botonesTransparentes();
         inhabilitar();
-        
-        txtIdventas.setVisible(false);
-        txtBoleta.setVisible(false);
-        txtFecha.setVisible(false);
-        txtHora.setVisible(false);
-        txtPrecioTotal.setVisible(false);
-        txtFk_clientes.setVisible(false);
-        jScrollPane2.setVisible(false);
-        jScrollPane3.setVisible(false);
+
+//        txtIdventas.setVisible(false);
+//        txtBoleta.setVisible(false);
+//        txtFecha.setVisible(false);
+//        txtHora.setVisible(false);
+//        txtPrecioTotal.setVisible(false);
+//        txtFk_clientes.setVisible(false);
+//        jScrollPane2.setVisible(false);
+//        jScrollPane3.setVisible(false);
     }
 
     public void mostrar(String buscar) {
@@ -263,7 +263,7 @@ public final class ListaVentas extends javax.swing.JInternalFrame {
 
         txtBuscar.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         txtBuscar.setForeground(new java.awt.Color(0, 102, 255));
-        txtBuscar.setText("Buscar Servicio...");
+        txtBuscar.setText("Buscar Venta...");
         txtBuscar.setBorder(null);
         txtBuscar.setDisabledTextColor(new java.awt.Color(255, 255, 255));
         txtBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -356,7 +356,7 @@ public final class ListaVentas extends javax.swing.JInternalFrame {
 
     private void txtBuscarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusLost
         if (tecla == false) {
-            txtBuscar.setText("Busque algo...");
+            txtBuscar.setText("Buscar Venta...");
         }
     }//GEN-LAST:event_txtBuscarFocusLost
 
@@ -369,21 +369,13 @@ public final class ListaVentas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtBuscarKeyPressed
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-        //mostrar(txtBuscar.getText());
+        mostrar(txtBuscar.getText());
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
         char c = evt.getKeyChar();
         if (Character.isLowerCase(c)) {
             evt.setKeyChar(Character.toUpperCase(c));
-        }
-
-        char validar = evt.getKeyChar();
-        if (Character.isDigit(validar)) {
-            getToolkit().beep();
-            evt.consume();
-            mensaje = "Ingrese solo letras";
-            advertencia();
         }
 
         int numerocaracteres = 19;
@@ -434,7 +426,10 @@ public final class ListaVentas extends javax.swing.JInternalFrame {
         mostrarDetalles(Integer.parseInt(txtIdventas.getText()));
 
         if (tblDetalles.getRowCount() != 0) {
-            mostrarProd(Integer.parseInt(tblDetalles.getValueAt(0, 4).toString()));
+            for (i = 0; i < tblDetalles.getRowCount(); i++) {
+                mostrarProd(Integer.parseInt(tblDetalles.getValueAt(i, 4).toString()));
+            }
+
         }
 
         btnEliminar.setEnabled(true);
@@ -562,7 +557,7 @@ public final class ListaVentas extends javax.swing.JInternalFrame {
                                         }
 
                                         String usuario = Principal.lblUsuario.getText();
-                                        String objeto = "Registro N°: "+txtIdventas.getText();
+                                        String objeto = "Registro N°: " + txtIdventas.getText();
                                         String Accion = "ELIMINAR";
                                         audi.audiservicios(usuario, objeto, Accion);
 
@@ -591,7 +586,7 @@ public final class ListaVentas extends javax.swing.JInternalFrame {
                             realizado();
 
                             String usuario = Principal.lblUsuario.getText();
-                            String objeto = "Registro N°: "+txtIdventas.getText();
+                            String objeto = "Registro N°: " + txtIdventas.getText();
                             String Accion = "ELIMINAR";
                             audi.audiservicios(usuario, objeto, Accion);
 

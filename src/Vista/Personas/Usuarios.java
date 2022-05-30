@@ -712,7 +712,7 @@ public final class Usuarios extends javax.swing.JInternalFrame {
 
     private void txtBuscarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusLost
         if (tecla == false) {
-            txtBuscar.setText("Busque algo...");
+            txtBuscar.setText("Buscar Usuario...");
         }
     }//GEN-LAST:event_txtBuscarFocusLost
 
@@ -1022,6 +1022,7 @@ public final class Usuarios extends javax.swing.JInternalFrame {
         } else {
             encabezado = "Eliminar permanentemente";
             mensaje = "Esta seguro de eliminar este registro?";
+            aceptarCancelar();
             String reply = Principal.txtAceptarCancelar.getText();
             if (reply.equals("1")) {
 

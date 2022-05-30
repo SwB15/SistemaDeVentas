@@ -2,14 +2,8 @@ package Vista.Notificaciones;
 
 import Vista.Principal;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import static java.awt.event.KeyEvent.VK_ENTER;
 import javax.swing.AbstractAction;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  *

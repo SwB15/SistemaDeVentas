@@ -39,6 +39,7 @@ public final class SeleccionarProductosCompras extends javax.swing.JDialog {
         this.getContentPane().setBackground(new Color(0, 0, 0, 0));
         this.setBackground(new Color(0, 0, 0, 0));
         this.setLocationRelativeTo(null);
+        
         prov = Compras.txtIdproveedores.getText();
         mostrar(prov);
         System.out.println(prov);

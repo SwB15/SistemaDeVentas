@@ -7,6 +7,8 @@ import Vista.Notificaciones.Aceptar_Cancelar;
 import Vista.Notificaciones.Advertencia;
 import Vista.Notificaciones.Fallo;
 import Vista.Notificaciones.Realizado;
+import Vista.Principal;
+import java.awt.Color;
 import java.awt.Frame;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,6 +19,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -31,17 +34,38 @@ public final class Descuentos extends javax.swing.JInternalFrame {
     java.sql.Date sql;
     String fk_clientes, fk_categorias, fk_productos;
     DefaultTableModel modelo, modelo2;
+    boolean tecla = false;
 
     public Descuentos() {
         initComponents();
+        ((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
+        this.setBackground(new Color(0, 0, 0, 0));
+        this.setIconifiable(false);
+        this.setBorder(null);
+        
         rbtnActivo.doClick();
         mostrar("");
+        botonesTransparentes();
+        inhabilitar();
+        txtCantidad.setEditable(false);
+        txtCantidad.setBackground(Color.white);
     }
 
     public void mostrar(String buscar) {
         try {
             modelo = funcion.mostrar(buscar);
             tblDescuentos.setModel(modelo);
+
+            //Tamaño de las columnas de la tabla
+            TableColumnModel columnModel = tblDescuentos.getColumnModel();
+            columnModel.getColumn(1).setPreferredWidth(50);
+            columnModel.getColumn(2).setPreferredWidth(20);
+            columnModel.getColumn(3).setPreferredWidth(300);
+            columnModel.getColumn(4).setPreferredWidth(30);
+            columnModel.getColumn(5).setPreferredWidth(20);
+            columnModel.getColumn(6).setPreferredWidth(20);
+            columnModel.getColumn(7).setPreferredWidth(20);
+            
             ocultar_columnas();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -56,6 +80,24 @@ public final class Descuentos extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
+    }
+    
+    public void botonesTransparentes() {
+        btnGuardar.setOpaque(false);
+        btnGuardar.setContentAreaFilled(false);
+        btnGuardar.setBorderPainted(false);
+
+        btnSeleccionar.setOpaque(false);
+        btnSeleccionar.setContentAreaFilled(false);
+        btnSeleccionar.setBorderPainted(false);
+        
+        btnNuevo.setOpaque(false);
+        btnNuevo.setContentAreaFilled(false);
+        btnNuevo.setBorderPainted(false);
+        
+        btnAnular.setOpaque(false);
+        btnAnular.setContentAreaFilled(false);
+        btnAnular.setBorderPainted(false);
     }
 
     private void revisarDetalles() {
@@ -140,12 +182,11 @@ public final class Descuentos extends javax.swing.JInternalFrame {
         dchFechacierre = new com.toedter.calendar.JDateChooser();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        btnGuardar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblDescuentos = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
+        lblCantidad = new javax.swing.JLabel();
         txtCantidad = new javax.swing.JTextField();
         txtCodigo = new javax.swing.JTextField();
         txtAplicar = new javax.swing.JTextField();
@@ -156,49 +197,63 @@ public final class Descuentos extends javax.swing.JInternalFrame {
         jLabel10 = new javax.swing.JLabel();
         txtTipo = new javax.swing.JTextField();
         txtIddescuentos = new javax.swing.JTextField();
-        btnNuevo = new javax.swing.JButton();
         txtIddetalledescuentos = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        lblCerrar = new javax.swing.JLabel();
+        btnGuardar = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
+        btnAnular = new javax.swing.JButton();
+        txtBuscar = new javax.swing.JTextField();
+        lblFondoBuscar = new javax.swing.JLabel();
+        lblFondo = new javax.swing.JLabel();
 
+        setBorder(null);
+        setOpaque(true);
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 formMouseClicked(evt);
             }
         });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Descuento:");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 213, -1, -1));
 
         txtDescuentos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        getContentPane().add(txtDescuentos, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, 100, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("Descripcion:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 120, -1, -1));
 
         atxtDescripcion.setColumns(20);
         atxtDescripcion.setRows(5);
         jScrollPane1.setViewportView(atxtDescripcion);
 
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 120, -1, -1));
+
         dchFechainicio.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        getContentPane().add(dchFechainicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 240, 118, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("F. Inicio:");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 243, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setText("F. Cierre:");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 273, -1, -1));
 
         dchFechacierre.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        getContentPane().add(dchFechacierre, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 270, 118, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel5.setText("Aplicar a:");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 123, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel6.setText("%");
-
-        btnGuardar.setText("Guardar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
-            }
-        });
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(213, 213, -1, -1));
 
         tblDescuentos = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -220,172 +275,140 @@ public final class Descuentos extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(tblDescuentos);
 
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 378, 930, 200));
+
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel7.setText("Nombre:");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 183, -1, -1));
 
         txtNombre.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 180, 200, -1));
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel8.setText("Cantidad:");
+        lblCantidad.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblCantidad.setText("Cantidad:");
+        getContentPane().add(lblCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 280, -1, -1));
 
         txtCantidad.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        getContentPane().add(txtCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 280, 145, -1));
 
         txtCodigo.setEditable(false);
         txtCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, 100, -1));
 
         txtAplicar.setEditable(false);
         txtAplicar.setBackground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(txtAplicar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, 300, -1));
 
-        btnSeleccionar.setText("Seleccionar");
+        btnSeleccionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/BotonSeleccionar.png"))); // NOI18N
         btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSeleccionarActionPerformed(evt);
             }
         });
+        getContentPane().add(btnSeleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 115, 100, -1));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel9.setText("Estado:");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 230, -1, -1));
 
+        rbtnActivo.setBackground(new java.awt.Color(255, 255, 255));
         rbtngDescuentos.add(rbtnActivo);
         rbtnActivo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         rbtnActivo.setText("Activo");
+        getContentPane().add(rbtnActivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 250, -1, -1));
 
+        rbtnInactivo.setBackground(new java.awt.Color(255, 255, 255));
         rbtngDescuentos.add(rbtnInactivo);
         rbtnInactivo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         rbtnInactivo.setText("Inactivo");
+        getContentPane().add(rbtnInactivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 230, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel10.setText("Tipo:");
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 153, -1, -1));
 
         txtTipo.setEditable(false);
         txtTipo.setBackground(new java.awt.Color(255, 255, 255));
         txtTipo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        getContentPane().add(txtTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 100, -1));
+        getContentPane().add(txtIddescuentos, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 30, 41, -1));
+        getContentPane().add(txtIddetalledescuentos, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, 40, -1));
 
-        btnNuevo.setText("Nuevo");
+        jLabel11.setFont(new java.awt.Font("Dialog", 1, 30)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Descuentos");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 270, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(dchFechainicio, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(txtDescuentos)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jLabel6))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(btnGuardar)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnNuevo))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel9)
-                                            .addComponent(jLabel8))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(rbtnInactivo)
-                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(rbtnActivo)
-                                            .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(dchFechacierre, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(59, 59, 59)
-                                                .addComponent(txtIddescuentos))
-                                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(txtAplicar, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(btnSeleccionar))
-                                            .addComponent(txtIddetalledescuentos, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(0, 344, Short.MAX_VALUE)))))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtIddescuentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtIddetalledescuentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(rbtnInactivo)
-                            .addComponent(jLabel9))
-                        .addGap(4, 4, 4)
-                        .addComponent(rbtnActivo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnGuardar)
-                            .addComponent(btnNuevo)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtAplicar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSeleccionar)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txtDescuentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(dchFechainicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(dchFechacierre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        lblCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Cerrar32.png"))); // NOI18N
+        lblCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCerrarMouseClicked(evt);
+            }
+        });
+        getContentPane().add(lblCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 14, 40, -1));
+
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Guardar32.png"))); // NOI18N
+        btnGuardar.setBorder(null);
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 320, 40, 40));
+
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Nuevo32.png"))); // NOI18N
+        btnNuevo.setBorder(null);
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 320, 40, 40));
+
+        btnAnular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Anular32.png"))); // NOI18N
+        btnAnular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnularActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnAnular, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 320, 40, -1));
+
+        txtBuscar.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        txtBuscar.setForeground(new java.awt.Color(0, 102, 255));
+        txtBuscar.setText("Buscar Descuento...");
+        txtBuscar.setBorder(null);
+        txtBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtBuscarFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtBuscarFocusLost(evt);
+            }
+        });
+        txtBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarActionPerformed(evt);
+            }
+        });
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyTyped(evt);
+            }
+        });
+        getContentPane().add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(782, 77, 146, 17));
+
+        lblFondoBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoBuscador.png"))); // NOI18N
+        getContentPane().add(lblFondoBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 70, -1, 30));
+
+        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoDescuentos.png"))); // NOI18N
+        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -394,14 +417,6 @@ public final class Descuentos extends javax.swing.JInternalFrame {
         SeleccionarDescuentos dialog = new SeleccionarDescuentos(f, true);
         dialog.setVisible(true);
     }//GEN-LAST:event_btnSeleccionarActionPerformed
-
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if (txtIddescuentos.getText().length() == 0) {
-            guardar();
-        } else {
-            editar();
-        }
-    }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         if (evt.getClickCount() == 2) {
@@ -475,6 +490,78 @@ public final class Descuentos extends javax.swing.JInternalFrame {
         revisarDetalles();
     }//GEN-LAST:event_tblDescuentosMouseClicked
 
+    private void lblCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarMouseClicked
+        Principal.lblProceso.setText("Proceso: OFF");
+        this.dispose();
+    }//GEN-LAST:event_lblCerrarMouseClicked
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        if (txtIddescuentos.getText().length() == 0) {
+            guardar();
+        } else {
+            editar();
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        habilitar();
+        limpiarTextFields();
+        txtNombre.requestFocus();
+        txtBuscar.setEditable(false);
+        mostrar("");
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void txtBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusGained
+        if (tecla == false) {
+            txtBuscar.setText("");
+        }
+    }//GEN-LAST:event_txtBuscarFocusGained
+
+    private void txtBuscarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusLost
+        if (tecla == false) {
+            txtBuscar.setText("Buscar Descuento...");
+        }
+    }//GEN-LAST:event_txtBuscarFocusLost
+
+    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
+        txtBuscar.transferFocus();
+    }//GEN-LAST:event_txtBuscarActionPerformed
+
+    private void txtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyPressed
+        tecla = true;
+    }//GEN-LAST:event_txtBuscarKeyPressed
+
+    private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
+        mostrar(txtBuscar.getText());
+    }//GEN-LAST:event_txtBuscarKeyReleased
+
+    private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
+        char c = evt.getKeyChar();
+        if (Character.isLowerCase(c)) {
+            evt.setKeyChar(Character.toUpperCase(c));
+        }
+
+        char validar = evt.getKeyChar();
+
+        if (Character.isDigit(validar)) {
+            getToolkit().beep();
+            evt.consume();
+            mensaje = "Ingrese solo letras";
+            advertencia();
+        }
+
+        int numerocaracteres = 19;
+        if (txtBuscar.getText().length() > numerocaracteres) {
+            evt.consume();
+            mensaje = "Solo se permiten 20 caracteres";
+            advertencia();
+        }
+    }//GEN-LAST:event_txtBuscarKeyTyped
+
+    private void btnAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularActionPerformed
+        anular();
+    }//GEN-LAST:event_btnAnularActionPerformed
+
     public void validarCampos() {
 
     }
@@ -514,6 +601,7 @@ public final class Descuentos extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea atxtDescripcion;
+    private javax.swing.JButton btnAnular;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnSeleccionar;
@@ -521,22 +609,27 @@ public final class Descuentos extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JDateChooser dchFechainicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    public static javax.swing.JLabel lblCantidad;
+    private javax.swing.JLabel lblCerrar;
+    private javax.swing.JLabel lblFondo;
+    private javax.swing.JLabel lblFondoBuscar;
     private javax.swing.JRadioButton rbtnActivo;
     private javax.swing.JRadioButton rbtnInactivo;
     private javax.swing.ButtonGroup rbtngDescuentos;
     public static javax.swing.JTable tblDescuentos;
     public static javax.swing.JTextField txtAplicar;
-    private javax.swing.JTextField txtCantidad;
+    private javax.swing.JTextField txtBuscar;
+    public static javax.swing.JTextField txtCantidad;
     public static javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtDescuentos;
     private javax.swing.JTextField txtIddescuentos;
@@ -695,7 +788,7 @@ public final class Descuentos extends javax.swing.JInternalFrame {
             switch (txtTipo.getText()) {
                 case "Clientes":
                     fk_clientes = txtCodigo.getText();
-                    if (funcion.editarDetalleConClientes(datosdetalle,txtNombre.getText(), fk_clientes)) {
+                    if (funcion.editarDetalleConClientes(datosdetalle, txtNombre.getText(), fk_clientes)) {
                         mensaje = "Descuento editado correctamente";
                         realizado();
                         mostrar("");
@@ -742,6 +835,41 @@ public final class Descuentos extends javax.swing.JInternalFrame {
             mensaje = "Descuento no guardado";
             fallo();
             mostrar("");
+        }
+    }
+    
+    public void anular(){
+        if (txtNombre.getText().length() == 0) {
+            mensaje = "Debes seleccionar primero un Descuento a anular.";
+            advertencia();
+            txtNombre.requestFocus();
+        } else {
+            encabezado = "Anular Descuento";
+            mensaje = "Ya no se podrá modificar una vez anulado";
+            aceptarCancelar();
+            String reply = Principal.txtAceptarCancelar.getText();
+            if (reply.equals("1")) {
+                datos.setEstado("Anulado");
+                datos.setIddescuentos(Integer.parseInt(txtIddescuentos.getText()));
+
+                if (funcion.editar(datos)) {
+                    mensaje = "Descuento anulado correctamente.";
+                    realizado();
+                    
+                    mostrar("");
+                    inhabilitar();
+                    limpiarTextFields();
+                    
+//                    String usuario = Principal.lblUsuario.getText();
+//                    String objeto = txtNombre.getText();
+//                    String Accion = "Anular Descuento";
+//                    audi.audiusuarios(usuario, objeto, Accion);
+                } else {
+                    mensaje = "Ha ocurrido un error al anular el Descuento.";
+                    fallo();
+                    mostrar("");
+                }
+            }
         }
     }
 }

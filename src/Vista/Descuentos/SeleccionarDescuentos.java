@@ -5,6 +5,8 @@ import Vista.Notificaciones.Aceptar_Cancelar;
 import Vista.Notificaciones.Advertencia;
 import Vista.Notificaciones.Fallo;
 import Vista.Notificaciones.Realizado;
+import Vista.Principal;
+import java.awt.Color;
 import java.awt.Frame;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -22,6 +24,11 @@ public final class SeleccionarDescuentos extends javax.swing.JDialog {
     public SeleccionarDescuentos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.getRootPane().setOpaque(false);
+        this.getContentPane().setBackground(new Color(0, 0, 0, 0));
+        this.setBackground(new Color(0, 0, 0, 0));
+        this.setLocationRelativeTo(null);
+
         this.setLocationRelativeTo(null);
         rbtnClientes.doClick();
     }
@@ -118,46 +125,42 @@ public final class SeleccionarDescuentos extends javax.swing.JDialog {
 
         rbtngDescuentos = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
+        lblCerrar = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblDescuentos = new javax.swing.JTable();
+        txtCodigo = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         rbtnClientes = new javax.swing.JRadioButton();
         rbtnCategorias = new javax.swing.JRadioButton();
         rbtnProductos = new javax.swing.JRadioButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblDescuentos = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        txtCodigo = new javax.swing.JTextField();
-        txtNombre = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 30)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Seleccionar Descuentos");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 390, -1));
 
-        rbtngDescuentos.add(rbtnClientes);
-        rbtnClientes.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        rbtnClientes.setText("Clientes");
-        rbtnClientes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbtnClientesActionPerformed(evt);
+        lblCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Cerrar32.png"))); // NOI18N
+        lblCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCerrarMouseClicked(evt);
             }
         });
+        getContentPane().add(lblCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(442, 14, 40, -1));
 
-        rbtngDescuentos.add(rbtnCategorias);
-        rbtnCategorias.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        rbtnCategorias.setText("Categorias");
-        rbtnCategorias.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbtnCategoriasActionPerformed(evt);
-            }
-        });
-
-        rbtngDescuentos.add(rbtnProductos);
-        rbtnProductos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        rbtnProductos.setText("Productos");
-        rbtnProductos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbtnProductosActionPerformed(evt);
-            }
-        });
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tblDescuentos = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -182,11 +185,7 @@ public final class SeleccionarDescuentos extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(tblDescuentos);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel2.setText("Codigo:");
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel3.setText("Nombre:");
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 410, 152));
 
         txtCodigo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtCodigo.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -199,6 +198,15 @@ public final class SeleccionarDescuentos extends javax.swing.JDialog {
                 txtCodigoKeyReleased(evt);
             }
         });
+        jPanel1.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 100, -1));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel2.setText("Codigo:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel3.setText("Nombre:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, -1, -1));
 
         txtNombre.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtNombre.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -211,57 +219,54 @@ public final class SeleccionarDescuentos extends javax.swing.JDialog {
                 txtNombreKeyReleased(evt);
             }
         });
+        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 300, -1));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 430, 220));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rbtnClientes)
-                            .addComponent(jLabel2))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(rbtnCategorias)
-                                .addGap(18, 18, 18)
-                                .addComponent(rbtnProductos))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(47, 47, 47)
-                                .addComponent(jLabel3))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbtnClientes)
-                    .addComponent(rbtnCategorias)
-                    .addComponent(rbtnProductos))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 430, 220));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        rbtnClientes.setBackground(new java.awt.Color(255, 255, 255));
+        rbtngDescuentos.add(rbtnClientes);
+        rbtnClientes.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        rbtnClientes.setText("Clientes");
+        rbtnClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnClientesActionPerformed(evt);
+            }
+        });
+        jPanel2.add(rbtnClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 14, -1, -1));
+
+        rbtnCategorias.setBackground(new java.awt.Color(255, 255, 255));
+        rbtngDescuentos.add(rbtnCategorias);
+        rbtnCategorias.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        rbtnCategorias.setText("Categorias");
+        rbtnCategorias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnCategoriasActionPerformed(evt);
+            }
+        });
+        jPanel2.add(rbtnCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 14, -1, -1));
+
+        rbtnProductos.setBackground(new java.awt.Color(255, 255, 255));
+        rbtngDescuentos.add(rbtnProductos);
+        rbtnProductos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        rbtnProductos.setText("Productos");
+        rbtnProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnProductosActionPerformed(evt);
+            }
+        });
+        jPanel2.add(rbtnProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 14, -1, -1));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoPanelDescuentos1.png"))); // NOI18N
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 50));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, 50));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoSeleccionarDescuentos.png"))); // NOI18N
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 390));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -305,14 +310,22 @@ public final class SeleccionarDescuentos extends javax.swing.JDialog {
             Descuentos.txtIddetalledescuentos.setText(String.valueOf(tblDescuentos.getValueAt(seleccionar, 0)));
             Descuentos.txtAplicar.setText(String.valueOf(tblDescuentos.getValueAt(seleccionar, 1)));
             Descuentos.txtCodigo.setText(String.valueOf(tblDescuentos.getValueAt(seleccionar, 0)));
-            
 
             if (rbtnClientes.isSelected()) {
                 Descuentos.txtTipo.setText("Clientes");
+                Descuentos.txtCantidad.setEditable(false);
+                Descuentos.txtCantidad.setText("");
+                Descuentos.txtCantidad.setBackground(Color.white);
             } else if (rbtnCategorias.isSelected()) {
                 Descuentos.txtTipo.setText("Categorias");
+                Descuentos.txtCantidad.setEditable(false);
+                Descuentos.txtCantidad.setText("");
+                Descuentos.txtCantidad.setBackground(Color.white);
             } else if (rbtnProductos.isSelected()) {
                 Descuentos.txtTipo.setText("Productos");
+                Descuentos.txtCantidad.setEditable(true);
+                Descuentos.txtCantidad.setText("");
+                Descuentos.txtCantidad.setBackground(Color.white);
             }
 
             dispose();
@@ -328,6 +341,11 @@ public final class SeleccionarDescuentos extends javax.swing.JDialog {
         txtCodigo.setText("");
         txtNombre.setText("");
     }//GEN-LAST:event_txtNombreFocusGained
+
+    private void lblCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarMouseClicked
+        Principal.lblProceso.setText("Proceso: OFF");
+        this.dispose();
+    }//GEN-LAST:event_lblCerrarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -349,7 +367,7 @@ public final class SeleccionarDescuentos extends javax.swing.JDialog {
             java.util.logging.Logger.getLogger(SeleccionarDescuentos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the dialog */
@@ -402,7 +420,13 @@ public final class SeleccionarDescuentos extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblCerrar;
     private javax.swing.JRadioButton rbtnCategorias;
     private javax.swing.JRadioButton rbtnClientes;
     private javax.swing.JRadioButton rbtnProductos;

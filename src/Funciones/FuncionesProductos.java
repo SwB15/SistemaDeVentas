@@ -113,22 +113,37 @@ public class FuncionesProductos {
     //Selecciona los productos mediante el codigo del producto
     public DefaultTableModel seleccionarProductosPorCodigo(String codigo) {
         DefaultTableModel modelo;
-        String[] titulos = {"Id", "Codigo", "Productos", "Precio", "Cantidad"};
-        String[] registros = new String[5];
+        String[] titulos = {"Id", "Codigo", "Productos", "P. Minor", "P. Mayor.", "Cantidad", "Cant. x Mayor", "Iva", "Descuento", "Categorias"};
+        String[] registros = new String[10];
         totalRegistros = 0;
         modelo = new DefaultTableModel(null, titulos);
 
+        sSQL = "SELECT productos.idproductos, productos.codigo, productos.productos, productos.preciominorista, "
+                + "productos.preciomayorista, productos.cantidad, productos.cantidadxmayor, iva, descuentos.descuento,"
+                + "(SELECT categorias FROM categorias WHERE categorias.idcategorias = productos.fk_categorias) AS categorias FROM productos "
+                + "LEFT OUTER JOIN detalledescuentos ON productos.idproductos = detalledescuentos.fk_productos "
+                + "LEFT OUTER JOIN descuentos ON detalledescuentos.fk_descuentos = descuentos.iddescuentos "
+                + "WHERE codigo LIKE '%" + codigo + "%' ORDER BY idproductos DESC";
+
         try {
-            ps = cn.prepareStatement("SELECT idproductos, codigo, productos, precio, cantidad FROM productos WHERE codigo = ? ORDER BY idproductos DESC");
-            ps.setString(1, codigo);
-            rs = ps.executeQuery();
+            st = cn.createStatement();
+            rs = st.executeQuery(sSQL);
 
             while (rs.next()) {
                 registros[0] = rs.getString("idproductos");
                 registros[1] = rs.getString("codigo");
                 registros[2] = rs.getString("productos");
-                registros[3] = rs.getString("precio");
-                registros[4] = rs.getString("cantidad");
+                registros[3] = rs.getString("preciominorista");
+                registros[4] = rs.getString("preciomayorista");
+                registros[5] = rs.getString("cantidad");
+                registros[6] = rs.getString("cantidadxmayor");
+                registros[7] = rs.getString("iva");
+                registros[8] = rs.getString("descuento");
+                registros[9] = rs.getString("categorias");
+
+                if (registros[8] == null) {
+                    registros[8] = "0";
+                }
 
                 totalRegistros = totalRegistros + 1;
                 modelo.addRow(registros);

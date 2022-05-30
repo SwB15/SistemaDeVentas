@@ -2,6 +2,7 @@ package Vista.Productos;
 
 import Controlador.Conexion;
 import Funciones.FuncionesProductos;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -9,9 +10,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import java.awt.Component;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -161,6 +172,11 @@ public final class SeleccionarProductosBaja extends javax.swing.JInternalFrame {
             }
         });
 
+        tblSeleccionarProductos = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                return false;
+            }
+        };
         tblSeleccionarProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},

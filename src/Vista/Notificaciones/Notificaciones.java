@@ -4,7 +4,6 @@ import Controlador.Conexion;
 import Controlador.ControlCantidad;
 import Controlador.Vencimientos;
 import Vista.Principal;
-import static Vista.Principal.tblCantidadMinima;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.sql.Connection;
@@ -14,13 +13,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import static Controlador.Vencimientos.tblVencimientos;
 import Controlador.VencimientosGastos;
-import static Controlador.VencimientosGastos.tblVencimientosGastos;
-import static Vista.Principal.lblContadorNotificaciones;
-import static Vista.Principal.lblNotificaciones;
-import java.awt.GridLayout;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**

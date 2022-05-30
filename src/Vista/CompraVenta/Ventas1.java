@@ -38,6 +38,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -77,19 +79,18 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
     DefaultTableModel modelo, modeloticket;
     ResultSet rs;
     int codigo = 0, c = 0, n, totals = 0, cant, can, i, idd, cantidad, ingresodia, seleccionar;
+    int indice = 0, columncount, contador = 0, cant2;
     int total, descuento;
+    float tamanoHoja;
     double iva;
     String boleta, sSQL;
+    String fechaActual, horaActual, text;
+    String ruta, datos4, datos5, datos6, total2;
+    public String cli, pro;
     String[] ticket = new String[4];
     String[] datos = new String[13];
     DateFormat hora, fecha;
     Date date = new Date();
-    String fechaActual, horaActual, text;
-    public String cli, pro;
-    int indice = 0, columncount, contador = 0, cant2;
-    String ruta, datos4, datos5, datos6, total2;
-
-    ;
 
     public Ventas1() {
         initComponents();
@@ -106,25 +107,61 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         vender();
         botonesTransparentes();
 
-//        txtIdproductos.setVisible(false);
+        txtImporte.setVisible(false);
+        txtNumero.setVisible(false);
+        txtDescuento.setVisible(false);
+        txtCantidad.setVisible(false);
+        txtIdproductos.setVisible(false);
+        txtIva.setVisible(false);
+        txtCategorias.setVisible(false);
+        txtCantidadxMayor.setVisible(false);
+        txtDescuentoCategorias.setVisible(false);
         txtIdventas.setText(String.valueOf(codigo));
         btnEliminar.setEnabled(false);
         btnAgregarProducto.setEnabled(false);
         txtCodigoProductos.requestFocus();
 
-        pmnuVentas.add(pnlPopupMenu);
-
-//        btnNuevo.setMnemonic(KeyEvent.VK_ENTER);
         tblVentas.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                pnlPopupMenu.setVisible(true);
+
                 if (SwingUtilities.isRightMouseButton(e)) {
                     Point p = e.getPoint();
                     int rowNumber = tblVentas.rowAtPoint(p);
                     tblVentas.getSelectionModel().setSelectionInterval(rowNumber, rowNumber);
+
+                    int seleccionar2 = rowNumber;
+
+                    txtNumero.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 0)));
+                    txtIdproductos.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 1)));
+                    txtCodigoProductos.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 2)));
+                    txtProductos.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 3)));
+                    txtCantidad.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 4)));
+                    txtPrecioMinorista.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 5)));
+                    txtPrecioMayorista.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 6)));
+                    txtDescuentoProductos.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 7)));
+                    txtImporte.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 8)));
+                    txtCategorias.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 9)));
+                    txtDescuentoCategorias.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 10)));
+                    txtCantidadxMayor.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 11)));
+                    txtIva.setText(String.valueOf(tblVentas.getValueAt(seleccionar2, 12)));
+
+                    btnEliminar.setEnabled(true);
+
+                    pnlPopupMenu.setBackground(new Color(0, 0, 0, 0));
+                    pnlPopupMenu.setBorder(null);
+                    pmnuVentas.setBorderPainted(false);
+                    pmnuVentas.setBorder(null);
+                    pmnuVentas.setBackground(new Color(0, 0, 0, 0));
                 }
             }
         });
+
+        pmnuVentas.add(pnlPopupMenu);
+        pmnuVentas.setBorderPainted(false);
+        pmnuVentas.setBorder(null);
+        pmnuVentas.setBackground(new Color(0, 0, 0, 0));
     }
 
     public void botonesTransparentes() {
@@ -148,9 +185,9 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         btnVender.setContentAreaFilled(false);
         btnVender.setBorderPainted(false);
 
-        btnEliminar.setOpaque(false);
-        btnEliminar.setContentAreaFilled(false);
-        btnEliminar.setBorderPainted(false);
+        pbtnEliminar.setOpaque(false);
+        pbtnEliminar.setContentAreaFilled(false);
+        pbtnEliminar.setBorderPainted(false);
     }
 
     public void mostrar(String buscar) {
@@ -192,21 +229,21 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
     }
 
     public void ocultar_columnas() {
-//        tblVentas.getColumnModel().getColumn(1).setMaxWidth(0);
-//        tblVentas.getColumnModel().getColumn(1).setMinWidth(0);
-//        tblVentas.getColumnModel().getColumn(1).setPreferredWidth(0);
-//
-//        tblVentas.getColumnModel().getColumn(9).setMaxWidth(0);
-//        tblVentas.getColumnModel().getColumn(9).setMinWidth(0);
-//        tblVentas.getColumnModel().getColumn(9).setPreferredWidth(0);
-//
-//        tblVentas.getColumnModel().getColumn(10).setMaxWidth(0);
-//        tblVentas.getColumnModel().getColumn(10).setMinWidth(0);
-//        tblVentas.getColumnModel().getColumn(10).setPreferredWidth(0);
-//
-//        tblVentas.getColumnModel().getColumn(11).setMaxWidth(0);
-//        tblVentas.getColumnModel().getColumn(11).setMinWidth(0);
-//        tblVentas.getColumnModel().getColumn(11).setPreferredWidth(0);
+        tblVentas.getColumnModel().getColumn(1).setMaxWidth(0);
+        tblVentas.getColumnModel().getColumn(1).setMinWidth(0);
+        tblVentas.getColumnModel().getColumn(1).setPreferredWidth(0);
+
+        tblVentas.getColumnModel().getColumn(9).setMaxWidth(0);
+        tblVentas.getColumnModel().getColumn(9).setMinWidth(0);
+        tblVentas.getColumnModel().getColumn(9).setPreferredWidth(0);
+
+        tblVentas.getColumnModel().getColumn(10).setMaxWidth(0);
+        tblVentas.getColumnModel().getColumn(10).setMinWidth(0);
+        tblVentas.getColumnModel().getColumn(10).setPreferredWidth(0);
+
+        tblVentas.getColumnModel().getColumn(11).setMaxWidth(0);
+        tblVentas.getColumnModel().getColumn(11).setMinWidth(0);
+        tblVentas.getColumnModel().getColumn(11).setPreferredWidth(0);
     }
 
     public void modeloTicket() {
@@ -314,6 +351,11 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
             txtCodigoProductos.setText(String.valueOf(modelo2.getValueAt(seleccionar, 1)));
             txtProductos.setText(String.valueOf(modelo2.getValueAt(seleccionar, 2)));
             txtPrecioMinorista.setText(String.valueOf(modelo2.getValueAt(seleccionar, 3)));
+            txtPrecioMayorista.setText(String.valueOf(modelo2.getValueAt(seleccionar, 4)));
+            txtCantidadxMayor.setText(String.valueOf(modelo2.getValueAt(seleccionar, 6)));
+            txtIva.setText(String.valueOf(modelo2.getValueAt(seleccionar, 7)));
+            txtDescuentoProductos.setText(String.valueOf(modelo2.getValueAt(seleccionar, 8)));
+            txtCategorias.setText(String.valueOf(modelo2.getValueAt(seleccionar, 9)));
 
             btnAgregarProducto.setEnabled(true);
         } catch (Exception e) {
@@ -338,9 +380,16 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
     }
 
     public boolean generarFactura() {
+        //Primero se realiza un calculo del la cantidad de lineas necesarias para optimizar el tamaño del documento
+        
+        //9.5 cm desde arriba hasta tabla productos
+        
         // Crear el documento con un tamaño personalizado de rollos de hojas 75x65mm
-        // 1mm = 28.3f
+        // 1mm = 2.83f
+        tamanoHoja = 1000;
         Rectangle rectangle = new Rectangle(212.25f, 1000f);
+        System.out.println("Rectangulo ancho: "+rectangle.getWidth());
+        System.out.println("Rectangulo alto: "+rectangle.getHeight());
         Document document = new Document(rectangle);
         document.setMargins(14.15f, 14.15f, 28.3f, 8f); //(izq, der, arriba, abajo)
 
@@ -474,9 +523,9 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
     public void ivaDescuentos() {
         int canti;
         int cantxmayor;
-
         txtTotalSinDescuento.setText("0");
         txtTotalDescuento.setText("0");
+
         for (i = 0; i < tblVentas.getRowCount(); i++) {
             canti = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 4)));
             cantxmayor = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 11)));
@@ -560,11 +609,25 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
                 }
             }
 
+            txtTotalIva.setText(String.valueOf(Integer.parseInt(txtIva5.getText().replace(".", "")) + Integer.parseInt(txtIva10.getText().replace(".", "")) + Integer.parseInt(txtExcentas.getText().replace(".", ""))));
+            //Agrega el punto de miles al monto total sin descuento
+            if (txtTotalIva.getText().length() > 3) {
+                String cadena = txtTotalIva.getText().replace(".", "");
+                txtTotalIva.setText(formateador14.format(Integer.parseInt(cadena)));
+            }
+
             txtTotalSinDescuento.setText(String.valueOf(Integer.parseInt(txtTotalSinDescuento.getText().replace(".", "")) + total));
             //Agrega el punto de miles al monto total sin descuento
             if (txtTotalSinDescuento.getText().length() > 3) {
                 String cadena = txtTotalSinDescuento.getText().replace(".", "");
                 txtTotalSinDescuento.setText(formateador14.format(Integer.parseInt(cadena)));
+            }
+
+            txtTotalDescuento.setText(String.valueOf(Integer.parseInt(txtTotalSinDescuento.getText().replace(".", "")) - Integer.parseInt(txtTotal.getText().replace(".", ""))));
+            //Agrega el punto de miles al monto total sin descuento
+            if (txtTotalDescuento.getText().length() > 3) {
+                String cadena = txtTotalDescuento.getText().replace(".", "");
+                txtTotalDescuento.setText(formateador14.format(Integer.parseInt(cadena)));
             }
         }
     }
@@ -655,6 +718,11 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
 
+        pmnuVentas.setBorder(null);
+        pmnuVentas.setBackground(new java.awt.Color(0,0,0,0));
+
+        pnlPopupMenu.setBackground(new java.awt.Color(0, 0, 0, 0));
+        this.setBorder(null);
         pnlPopupMenu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pbtnEliminar.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -966,6 +1034,8 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         jLabel17.setText("Gravado 10%:");
         jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
 
+        txtExcentas.setEditable(false);
+        txtExcentas.setBackground(new java.awt.Color(255, 255, 255));
         txtExcentas.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtExcentas.setText("0");
         jPanel1.add(txtExcentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, 90, -1));
@@ -974,14 +1044,20 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         jLabel20.setText("Total s/ Desc.");
         jPanel1.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, 90, -1));
 
+        txtTotalSinDescuento.setEditable(false);
+        txtTotalSinDescuento.setBackground(new java.awt.Color(255, 255, 255));
         txtTotalSinDescuento.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTotalSinDescuento.setText("0");
         jPanel1.add(txtTotalSinDescuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, 90, -1));
 
+        txtIva5.setEditable(false);
+        txtIva5.setBackground(new java.awt.Color(255, 255, 255));
         txtIva5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtIva5.setText("0");
         jPanel1.add(txtIva5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 90, -1));
 
+        txtIva10.setEditable(false);
+        txtIva10.setBackground(new java.awt.Color(255, 255, 255));
         txtIva10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtIva10.setText("0");
         jPanel1.add(txtIva10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 90, -1));
@@ -994,6 +1070,8 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         jLabel23.setText("Total IVA:");
         jPanel1.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 90, -1));
 
+        txtTotalIva.setEditable(false);
+        txtTotalIva.setBackground(new java.awt.Color(255, 255, 255));
         txtTotalIva.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTotalIva.setText("0");
         jPanel1.add(txtTotalIva, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 90, -1));
@@ -1006,6 +1084,8 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         jLabel24.setText("Descuento:");
         jPanel1.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 60, 90, -1));
 
+        txtTotalDescuento.setEditable(false);
+        txtTotalDescuento.setBackground(new java.awt.Color(255, 255, 255));
         txtTotalDescuento.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTotalDescuento.setText("0");
         jPanel1.add(txtTotalDescuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, 90, -1));
@@ -1044,6 +1124,7 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
     private void txtCodigoProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoProductosActionPerformed
         busquedaPorCodigo(txtCodigoProductos.getText());
 
+        compararDescuentosProductos();
         if (tblVentas.getRowCount() != 0) {
             if (recorrerTabla() == true) {
                 actualizar();
@@ -1052,6 +1133,13 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
             }
         } else {
             nuevo();
+        }
+
+        txtTotalIva.setText(String.valueOf(Integer.parseInt(txtIva5.getText().replace(".", "")) + Integer.parseInt(txtIva10.getText().replace(".", ""))));
+
+        if (txtTotalIva.getText().length() > 3) {
+            String cadena = txtTotalIva.getText().replace(".", "");
+            txtTotalIva.setText(formateador14.format(Integer.parseInt(cadena)));
         }
     }//GEN-LAST:event_txtCodigoProductosActionPerformed
 
@@ -1158,6 +1246,8 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
                                 //Eliminar la primera fila
                                 modelo.removeRow(0);
 
+                                tamanoHoja = tamanoHoja+1;
+                                System.out.println("tamaño hoja: "+tamanoHoja);
                                 if (modelo.getRowCount() == 0) {
                                     encabezado = "Venta realizada";
                                     mensaje = "Generar factura?";
@@ -1166,7 +1256,15 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
                                     //Si se oprime aceptar, se genera la factura correspondiente
                                     if (Principal.txtAceptarCancelar.getText().equals("1")) {
                                         //Funcion para generar una factura
-                                        ruta = "C:\\Users\\User\\Documents\\NetBeansProjects\\ventainformatica\\src\\Temp\\";
+                                        
+                                        //Se genera una ruta absoluta a partir de una ruta relativa
+                                        final String rutaImagen = "src/Temp/";
+                                        Path rutarelativaImagen = Paths.get(rutaImagen);
+
+                                        Path rutaabsolutaImagen = rutarelativaImagen.toAbsolutePath();
+                                        String rutaImagen1 = rutaabsolutaImagen.toString();
+                                        ruta = rutaImagen1;
+                                        
                                         generarFactura();
                                         visualizar(txtBoleta.getText());
                                     }
@@ -1232,6 +1330,7 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
 
     private void pbtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbtnEliminarActionPerformed
         eliminar();
+        pnlPopupMenu.setVisible(false);
     }//GEN-LAST:event_pbtnEliminarActionPerformed
 
     //Metodos para llamar a los JDialog de Advertencia, Fallo y Realizado
@@ -1355,7 +1454,7 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         //problema de obrtener valor de spinner toca dar vuelta
         txtCantidad.setText(String.valueOf(cant));
 
-        int a = Integer.parseInt(txtPrecioMinorista.getText());
+        int a = Integer.parseInt(txtPrecioMinorista.getText().replace(".", ""));
         int b = Integer.parseInt(txtCantidad.getText());
         // Calcular la cantidad por valor
         int importe = a * b;
@@ -1419,26 +1518,6 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
 
                 descuento = (int) (total * Integer.parseInt(txtDescuentoClientes.getText()) / 100);
                 total = total - descuento;
-//
-//                //Se realiza el calculo del iva
-//                switch (Integer.parseInt(datos[12])) {
-//                    case 10:
-//                        iva = total / 11;
-//                        iva = Integer.parseInt(txtIva10.getText().replace(".", "")) + iva;
-//                        txtIva10.setText(String.valueOf(formateador14.format(iva)));
-//                        break;
-//                    case 5:
-//                        iva = total / 21;
-//                        iva = Integer.parseInt(txtIva5.getText().replace(".", "")) + iva;
-//                        txtIva5.setText(String.valueOf(formateador14.format(iva)));
-//                        break;
-//                    case 0:
-//                        iva = Integer.parseInt(txtExcentas.getText().replace(".", "")) + iva;
-//                        txtExcentas.setText(String.valueOf(formateador14.format(iva)));
-//                        break;
-//                    default:
-//                        break;
-//                }
 
                 //Agrega el punto de miles al monto total
                 if (String.valueOf(total).length() > 3) {
@@ -1448,18 +1527,6 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
                 datos[7] = txtDescuentoClientes.getText();
                 datos[8] = total2;
 
-//                //Se vuelve a sumar el total con el descuento para obtener el monto total sin el descuento
-//                //Esto se realiza porque cerca de la linea 1343 se sobreescribe el monto total por el monto total aplicando el descuento
-//                int total3 = total + descuento;
-//
-//                //Agrega el total sin descuento al JTextField
-//                txtTotalSinDescuento.setText(String.valueOf(Integer.parseInt(txtTotalSinDescuento.getText().replace(".", "")) + total3));
-//
-//                //Agrega el punto de miles al monto total sin descuento
-//                if (txtTotalSinDescuento.getText().length() > 3) {
-//                    String cadena = txtTotalSinDescuento.getText().replace(".", "");
-//                    txtTotalSinDescuento.setText(formateador14.format(Integer.parseInt(cadena)));
-//                }
             } else if (txtDescuentoCategorias.getText().length() > 0) {
                 if (Integer.parseInt(txtDescuentoCategorias.getText()) > 0) {
                     int canti = Integer.parseInt(datos[4]);
@@ -1474,26 +1541,6 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
 
                     descuento = (int) (total * Integer.parseInt(txtDescuentoCategorias.getText()) / 100);
                     total = total - descuento;
-//
-//                    //Se realiza el calculo del iva
-//                    switch (Integer.parseInt(datos[12])) {
-//                        case 10:
-//                            iva = total / 11;
-//                            iva = Integer.parseInt(txtIva10.getText().replace(".", "")) + iva;
-//                            txtIva10.setText(String.valueOf(formateador14.format(iva)));
-//                            break;
-//                        case 5:
-//                            iva = total / 21;
-//                            iva = Integer.parseInt(txtIva5.getText().replace(".", "")) + iva;
-//                            txtIva5.setText(String.valueOf(formateador14.format(iva)));
-//                            break;
-//                        case 0:
-//                            iva = Integer.parseInt(txtExcentas.getText().replace(".", "")) + iva;
-//                            txtExcentas.setText(String.valueOf(formateador14.format(iva)));
-//                            break;
-//                        default:
-//                            break;
-//                    }
 
                     //Agrega el punto de miles al monto total
                     if (String.valueOf(total).length() > 3) {
@@ -1503,18 +1550,6 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
                     datos[8] = total2;
                     datos[7] = txtDescuentoCategorias.getText();
 
-//                    //Se vuelve a sumar el total con el descuento para obtener el monto total sin el descuento
-//                    //Esto se realiza porque cerca de la linea 1343 se sobreescribe el monto total por el monto total aplicando el descuento
-//                    int total3 = total + descuento;
-//
-//                    //Agrega el total sin descuento al JTextField
-//                    txtTotalSinDescuento.setText(String.valueOf(Integer.parseInt(txtTotalSinDescuento.getText().replace(".", "")) + total3));
-//
-//                    //Agrega el punto de miles al monto total sin descuento
-//                    if (txtTotalSinDescuento.getText().length() > 3) {
-//                        String cadena = txtTotalSinDescuento.getText().replace(".", "");
-//                        txtTotalSinDescuento.setText(formateador14.format(Integer.parseInt(cadena)));
-//                    }
                 } else if (txtDescuentoProductos.getText().length() > 0) {
                     if (Integer.parseInt(txtDescuentoProductos.getText()) > 0) {
                         int canti = Integer.parseInt(datos[4]);
@@ -1529,26 +1564,6 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
                         descuento = (int) (total * Integer.parseInt(txtDescuentoProductos.getText()) / 100);
                         total = total - descuento;
 
-//                        //Se realiza el calculo del iva
-//                        switch (Integer.parseInt(datos[12])) {
-//                            case 10:
-//                                iva = total / 11;
-//                                iva = Integer.parseInt(txtIva10.getText().replace(".", "")) + iva;
-//                                txtIva10.setText(String.valueOf(formateador14.format(iva)));
-//                                break;
-//                            case 5:
-//                                iva = total / 21;
-//                                iva = Integer.parseInt(txtIva5.getText().replace(".", "")) + iva;
-//                                txtIva5.setText(String.valueOf(formateador14.format(iva)));
-//                                break;
-//                            case 0:
-//                                iva = Integer.parseInt(txtExcentas.getText().replace(".", "")) + iva;
-//                                txtExcentas.setText(String.valueOf(formateador14.format(iva)));
-//                                break;
-//                            default:
-//                                break;
-//                        }
-
                         //Agrega el punto de miles al monto total
                         if (String.valueOf(total).length() > 3) {
                             String cadena = String.valueOf(total).replace(".", "");
@@ -1557,18 +1572,6 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
                         datos[8] = total2;
                         datos[7] = txtDescuentoProductos.getText();
 
-//                        //Se vuelve a sumar el total con el descuento para obtener el monto total sin el descuento
-//                        //Esto se realiza porque cerca de la linea 1343 se sobreescribe el monto total por el monto total aplicando el descuento
-//                        int total3 = total + descuento;
-//
-//                        //Agrega el total sin descuento al JTextField
-//                        txtTotalSinDescuento.setText(String.valueOf(Integer.parseInt(txtTotalSinDescuento.getText().replace(".", "")) + total3));
-//
-//                        //Agrega el punto de miles al monto total sin descuento
-//                        if (txtTotalSinDescuento.getText().length() > 3) {
-//                            String cadena = txtTotalSinDescuento.getText().replace(".", "");
-//                            txtTotalSinDescuento.setText(formateador14.format(Integer.parseInt(cadena)));
-//                        }
                     }
                 }
             }
@@ -1577,41 +1580,10 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         modelo.addRow(datos);
         tblVentas.setModel(modelo);
 
-        int canti;
-        int cantxmayor;
-
-//        txtTotalSinDescuento.setText("0");
-//        txtTotalDescuento.setText("0");
-//        for (i = 0; i < tblVentas.getRowCount(); i++) {
-//            canti = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 4)));
-//            cantxmayor = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 11)));
-//
-//            if (canti >= cantxmayor) {
-//                total = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 4)).replace(".", "")) * Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 6)).replace(".", ""));
-//            } else {
-//                total = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 4)).replace(".", "")) * Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 5)).replace(".", ""));
-//            }
-//
-//            txtTotalSinDescuento.setText(String.valueOf(Integer.parseInt(txtTotalSinDescuento.getText().replace(".", "")) + total));
-//            //Agrega el punto de miles al monto total sin descuento
-//            if (txtTotalSinDescuento.getText().length() > 3) {
-//                String cadena = txtTotalSinDescuento.getText().replace(".", "");
-//                txtTotalSinDescuento.setText(formateador14.format(Integer.parseInt(cadena)));
-//            }
-//        }
-
         ivaDescuentos();
         totalizar();
-
         c++;
         vender();
-
-        txtTotalDescuento.setText(String.valueOf(Integer.parseInt(txtTotalSinDescuento.getText().replace(".", "")) - Integer.parseInt(txtTotal.getText().replace(".", ""))));
-        //Agrega el punto de miles al monto total sin descuento
-        if (txtTotalDescuento.getText().length() > 3) {
-            String cadena = txtTotalDescuento.getText().replace(".", "");
-            txtTotalDescuento.setText(formateador14.format(Integer.parseInt(cadena)));
-        }
     }
 
     public void actualizar() {
@@ -1719,27 +1691,24 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
         ivaDescuentos();
         totalizar();
         vender();
-
-        txtTotalDescuento.setText(String.valueOf(Integer.parseInt(txtTotalSinDescuento.getText().replace(".", "")) - Integer.parseInt(txtTotal.getText().replace(".", ""))));
-        //Agrega el punto de miles al monto total sin descuento
-        if (txtTotalDescuento.getText().length() > 3) {
-            String cadena = txtTotalDescuento.getText().replace(".", "");
-            txtTotalDescuento.setText(formateador14.format(Integer.parseInt(cadena)));
-        }
     }
-    
-    public void eliminar(){
+
+    public void eliminar() {
         i = tblVentas.getSelectedRow();
         if (i == -1) {
             mensaje = "Seleccione una fila a Eliminar";
             advertencia();
         } else {
-            String total = txtTotal.getText().replace(".", "");
-            int tot = Integer.parseInt(total);
-            String nums = (String) tblVentas.getValueAt(i, 8);
-            int entero = Integer.parseInt(nums.replace(".", ""));
+            int tot = Integer.parseInt(txtTotal.getText().replace(".", ""));
+            int entero = Integer.parseInt(String.valueOf(tblVentas.getValueAt(i, 8)).replace(".", ""));
             totals = tot - entero;
             txtTotal.setText(String.valueOf(totals));
+
+            //Agrega el punto de miles al monto total
+            if (txtTotal.getText().length() > 3) {
+                String cadena = txtTotal.getText().replace(".", "");
+                txtTotal.setText(formateador14.format(Integer.parseInt(cadena)));
+            }
 
             this.modelo.removeRow(i);
             n = n - 1;
@@ -1749,6 +1718,7 @@ public final class Ventas1 extends javax.swing.JInternalFrame {
                 tblVentas.setValueAt(num, w, 0);
                 num = num + 1;
             }
+
             ivaDescuentos();
         }
     }

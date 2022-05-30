@@ -1,4 +1,3 @@
-
 package Funciones;
 
 import Controlador.Conexion;
@@ -17,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
  * @author SwichBlade15
  */
 public class FuncionesVentas {
+
     private final Conexion mysql = new Conexion();
     private final Connection cn = Conexion.getConnection();
     private String sSQL = "";
@@ -32,7 +32,7 @@ public class FuncionesVentas {
         totalRegistros = 0;
         modelo = new DefaultTableModel(null, titulos);
 
-        sSQL = "SELECT idventas, boleta, fecha, hora, preciototal, (SELECT nombre FROM clientes WHERE idclientes = fk_clientes)AS clientes FROM ventas WHERE boleta LIKE '%" + buscar + "%' ORDER BY idventas DESC";
+        sSQL = "SELECT idventas, boleta, fecha, hora, preciototal, (SELECT nombre FROM clientes WHERE idclientes = fk_clientes)AS nombre, (SELECT apellido FROM clientes WHERE idclientes = fk_clientes)AS apellido FROM ventas WHERE boleta LIKE '%" + buscar + "%' ORDER BY idventas DESC";
 
         try {
             st = cn.createStatement();
@@ -44,7 +44,7 @@ public class FuncionesVentas {
                 registros[2] = rs.getString("fecha");
                 registros[3] = rs.getString("hora");
                 registros[4] = rs.getString("preciototal");
-                registros[5] = rs.getString("clientes");
+                registros[5] = rs.getString("nombre") + " " + rs.getString("apellido");
 
                 totalRegistros = totalRegistros + 1;
                 modelo.addRow(registros);
@@ -76,10 +76,10 @@ public class FuncionesVentas {
             return false;
         }
     }
-    
+
     public boolean insertarDetalleVentas(DatosDetalleVentas datos, int fk_productos, int fk_ventas) {
         sSQL = "INSERT INTO detalleventas (precio, cantidad, fk_productos, fk_ventas) VALUES(?,?,?,?)";
-        
+
         try {
             PreparedStatement pst = cn.prepareStatement(sSQL);
             pst.setInt(1, datos.getPrecio());
@@ -89,8 +89,7 @@ public class FuncionesVentas {
 
             int N = pst.executeUpdate();
             return N != 0;
-            
-            
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
             return false;
@@ -111,7 +110,7 @@ public class FuncionesVentas {
             return false;
         }
     }
-    
+
     public boolean eliminarDetalles(DatosDetalleVentas datos) {
         sSQL = "DELETE FROM detalleventas WHERE iddetalleventas = ?";
 
@@ -127,8 +126,8 @@ public class FuncionesVentas {
         }
     }
 
-    public int buscarClientes(String clientes){
-        sSQL = "SELECT idclientes FROM clientes WHERE clientes.cedula = '"+clientes+"'";
+    public int buscarClientes(String clientes) {
+        sSQL = "SELECT idclientes FROM clientes WHERE clientes.cedula = '" + clientes + "'";
         int codigo = 0;
         try {
             st = cn.createStatement();
@@ -142,9 +141,9 @@ public class FuncionesVentas {
         }
         return codigo;
     }
-    
-    public int buscarProductos(String productos){
-        sSQL = "SELECT idproductos FROM productos WHERE productos.productos = '"+productos+"'";
+
+    public int buscarProductos(String productos) {
+        sSQL = "SELECT idproductos FROM productos WHERE productos.productos = '" + productos + "'";
         int codigo = 0;
         try {
             st = cn.createStatement();
@@ -158,9 +157,9 @@ public class FuncionesVentas {
         }
         return codigo;
     }
-    
-    public int buscarVentas(String ventas){
-        sSQL = "SELECT idventas FROM ventas WHERE ventas.boleta = '"+ventas+"'";
+
+    public int buscarVentas(String ventas) {
+        sSQL = "SELECT idventas FROM ventas WHERE ventas.boleta = '" + ventas + "'";
         int codigo = 0;
         try {
             st = cn.createStatement();
@@ -174,7 +173,7 @@ public class FuncionesVentas {
         }
         return codigo;
     }
-    
+
     //Funciones para ListaServicios
     public DefaultTableModel mostrarDetalleVentas(int buscar) {
         DefaultTableModel modelo;
@@ -182,7 +181,7 @@ public class FuncionesVentas {
         String[] registros = new String[5];
         totalRegistros = 0;
         modelo = new DefaultTableModel(null, titulos);
-        
+
         try {
             PreparedStatement ps = cn.prepareStatement("SELECT iddetalleventas, precio, cantidad, fk_ventas, "
                     + "fk_productos FROM detalleventas WHERE fk_ventas = ?");
@@ -208,13 +207,17 @@ public class FuncionesVentas {
 
     public DefaultTableModel seleccionarListaProductos(int buscar) {
         DefaultTableModel modelo;
-        String[] titulos = {"Id", "Codigo", "Productos", "Precio", "Cantidad"};
-        String[] registros = new String[5];
+        String[] titulos = {"Id", "Codigo", "Productos", "P. Minor", "P. Mayor.", "Cantidad", "Cant. x Mayor", "Iva", "Descuento", "Categorias"};
+        String[] registros = new String[10];
         totalRegistros = 0;
         modelo = new DefaultTableModel(null, titulos);
-        
+
         try {
-            PreparedStatement ps = cn.prepareStatement("SELECT idproductos, codigo, productos, precio, cantidad FROM productos "
+            PreparedStatement ps = cn.prepareStatement("SELECT productos.idproductos, productos.codigo, productos.productos, productos.preciominorista, "
+                    + "productos.preciomayorista, productos.cantidad, productos.cantidadxmayor, iva, descuentos.descuento,"
+                    + "(SELECT categorias FROM categorias WHERE categorias.idcategorias = productos.fk_categorias) AS categorias FROM productos "
+                    + "LEFT OUTER JOIN detalledescuentos ON productos.idproductos = detalledescuentos.fk_productos "
+                    + "LEFT OUTER JOIN descuentos ON detalledescuentos.fk_descuentos = descuentos.iddescuentos "
                     + "WHERE idproductos = ? ORDER BY idproductos DESC");
             ps.setInt(1, buscar);
             rs = ps.executeQuery();
@@ -223,8 +226,17 @@ public class FuncionesVentas {
                 registros[0] = rs.getString("idproductos");
                 registros[1] = rs.getString("codigo");
                 registros[2] = rs.getString("productos");
-                registros[3] = rs.getString("precio");
-                registros[4] = rs.getString("cantidad");
+                registros[3] = rs.getString("preciominorista");
+                registros[4] = rs.getString("preciomayorista");
+                registros[5] = rs.getString("cantidad");
+                registros[6] = rs.getString("cantidadxmayor");
+                registros[7] = rs.getString("iva");
+                registros[8] = rs.getString("descuento");
+                registros[9] = rs.getString("categorias");
+
+                if (registros[8] == null) {
+                    registros[8] = "0";
+                }
 
                 totalRegistros = totalRegistros + 1;
                 modelo.addRow(registros);
