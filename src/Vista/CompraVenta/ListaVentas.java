@@ -148,10 +148,12 @@ public final class ListaVentas extends javax.swing.JInternalFrame {
 
     //Ingresa los productos de DetalleVentas en un JTable
     public void mostrarProd(int buscar) {
+        String[] titulos = {"Id", "Codigo", "Productos", "P. Minor", "P. Mayor.", "Cantidad", "Cant. x Mayor", "Iva", "Descuento", "Categorias"};
+        modeloprod = new DefaultTableModel(null, titulos);
         try {
             //Llenar la tabla
             modeloprod = funcion.seleccionarListaProductos(buscar);
-            tblListaProductos.setModel(modeloprod);
+//            tblListaProductos.setModel(modeloprod);
             ocultar_columnas();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -429,7 +431,6 @@ public final class ListaVentas extends javax.swing.JInternalFrame {
             for (i = 0; i < tblDetalles.getRowCount(); i++) {
                 mostrarProd(Integer.parseInt(tblDetalles.getValueAt(i, 4).toString()));
             }
-
         }
 
         btnEliminar.setEnabled(true);

@@ -39,7 +39,7 @@ public final class SeleccionarDescuentos extends javax.swing.JDialog {
             DefaultTableModel modelo;
             modelo = funcion.mostrarClientesDescuentosCedula(codigo);
             tblDescuentos.setModel(modelo);
-            ocultar_columnas();
+//            ocultar_columnas();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -51,7 +51,7 @@ public final class SeleccionarDescuentos extends javax.swing.JDialog {
             DefaultTableModel modelo;
             modelo = funcion.mostrarClientesDescuentosNombre(nombre);
             tblDescuentos.setModel(modelo);
-            ocultar_columnas();
+//            ocultar_columnas();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -64,7 +64,7 @@ public final class SeleccionarDescuentos extends javax.swing.JDialog {
             DefaultTableModel modelo;
             modelo = funcion.mostrarCategoriasDescuentosCodigo(codigo);
             tblDescuentos.setModel(modelo);
-            ocultar_columnas();
+//            ocultar_columnas();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -75,7 +75,7 @@ public final class SeleccionarDescuentos extends javax.swing.JDialog {
             DefaultTableModel modelo;
             modelo = funcion.mostrarCategoriasDescuentosNombre(nombre);
             tblDescuentos.setModel(modelo);
-            ocultar_columnas();
+//            ocultar_columnas();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -89,7 +89,7 @@ public final class SeleccionarDescuentos extends javax.swing.JDialog {
             DefaultTableModel modelo;
             modelo = funcion.mostrarProductosDescuentosCodigo(codigo);
             tblDescuentos.setModel(modelo);
-            ocultar_columnas();
+//            ocultar_columnas();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -101,18 +101,18 @@ public final class SeleccionarDescuentos extends javax.swing.JDialog {
             DefaultTableModel modelo;
             modelo = funcion.mostrarProductosDescuentosNombre(nombre);
             tblDescuentos.setModel(modelo);
-            ocultar_columnas();
+//            ocultar_columnas();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
 //********************FIN MOSTRAR PRODUCTOS**********************//
 
-    public void ocultar_columnas() {
-        tblDescuentos.getColumnModel().getColumn(0).setMaxWidth(0);
-        tblDescuentos.getColumnModel().getColumn(0).setMinWidth(0);
-        tblDescuentos.getColumnModel().getColumn(0).setPreferredWidth(0);
-    }
+//    public void ocultar_columnas() {
+//        tblDescuentos.getColumnModel().getColumn(0).setMaxWidth(0);
+//        tblDescuentos.getColumnModel().getColumn(0).setMinWidth(0);
+//        tblDescuentos.getColumnModel().getColumn(0).setPreferredWidth(0);
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -309,24 +309,21 @@ public final class SeleccionarDescuentos extends javax.swing.JDialog {
         if (evt.getClickCount() == 2) {
             Descuentos.txtIddetalledescuentos.setText(String.valueOf(tblDescuentos.getValueAt(seleccionar, 0)));
             Descuentos.txtAplicar.setText(String.valueOf(tblDescuentos.getValueAt(seleccionar, 1)));
-            Descuentos.txtCodigo.setText(String.valueOf(tblDescuentos.getValueAt(seleccionar, 0)));
+            Descuentos.txtCodigo.setText(String.valueOf(tblDescuentos.getValueAt(seleccionar, 2)));
 
             if (rbtnClientes.isSelected()) {
                 Descuentos.txtTipo.setText("Clientes");
                 Descuentos.txtCantidad.setEditable(false);
-                Descuentos.txtCantidad.setText("");
-                Descuentos.txtCantidad.setBackground(Color.white);
             } else if (rbtnCategorias.isSelected()) {
                 Descuentos.txtTipo.setText("Categorias");
                 Descuentos.txtCantidad.setEditable(false);
-                Descuentos.txtCantidad.setText("");
-                Descuentos.txtCantidad.setBackground(Color.white);
             } else if (rbtnProductos.isSelected()) {
                 Descuentos.txtTipo.setText("Productos");
                 Descuentos.txtCantidad.setEditable(true);
-                Descuentos.txtCantidad.setText("");
-                Descuentos.txtCantidad.setBackground(Color.white);
             }
+            
+            Descuentos.txtCantidad.setText("0");
+            Descuentos.txtCantidad.setBackground(Color.white);
 
             dispose();
         }

@@ -372,8 +372,8 @@ public final class Baja extends javax.swing.JInternalFrame {
     private javax.swing.JTextArea atxtMotivo;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> cmbMotivo;
-    private com.toedter.calendar.JDateChooser dchCompra;
-    private com.toedter.calendar.JDateChooser dchVencimiento;
+    public static com.toedter.calendar.JDateChooser dchCompra;
+    public static com.toedter.calendar.JDateChooser dchVencimiento;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -386,7 +386,7 @@ public final class Baja extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSpinner spnCantidad;
     private javax.swing.JTable tblBaja;
-    private javax.swing.JTextField txtCodigo;
-    private javax.swing.JTextField txtProductos;
+    public static javax.swing.JTextField txtCodigo;
+    public static javax.swing.JTextField txtProductos;
     // End of variables declaration//GEN-END:variables
 }

@@ -2,7 +2,6 @@ package Vista.Productos;
 
 import Controlador.Conexion;
 import Funciones.FuncionesProductos;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -10,19 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import java.awt.Component;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JTable;
-import javax.swing.UIManager;
-import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -48,28 +37,29 @@ public final class SeleccionarProductosBaja extends javax.swing.JInternalFrame {
 
     void llenarTabla(String buscar) {
         try {
-            String[] titulos = {"ID", "Codigo", "Productos"};
+            String[] titulos = {"ID", "Codigo", "Productos", "F. Compra", "F. Venc."};
             model = new DefaultTableModel(null, titulos);
-            String stsql = "SELECT idproductos, productos, codigo FROM productos";
+            sSQL = "SELECT productos.idproductos, productos.productos, productos.codigo, productos.fechavencimiento, "
+                    + "compras.fecha FROM productos"
+                    + "LEFT OUTER JOIN detallecompra ON productos.idproductos = detallecompra.fk_productos "
+                    + "LEFT OUTER JOIN compras ON detallecompra.fk_compras = compras.idcompras ";
 
             switch (busqueda) {
                 default:
                     st = cn.createStatement();
-                    rs = st.executeQuery(stsql);
+                    rs = st.executeQuery(sSQL);
                     break;
                 case "codigo":
-                    stsql = stsql + " WHERE codigo = ?";
-                    ps = cn.prepareStatement(stsql);
+                    sSQL = sSQL + " WHERE codigo = ?";
+                    ps = cn.prepareStatement(sSQL);
                     ps.setString(1, buscar);
                     rs = ps.executeQuery();
-                    System.out.println(stsql);
                     break;
                 case "productos":
-                    stsql = stsql + " WHERE productos = ?";
-                    ps = cn.prepareStatement(stsql);
+                    sSQL = sSQL + " WHERE productos = ?";
+                    ps = cn.prepareStatement(sSQL);
                     ps.setString(1, buscar);
                     rs = ps.executeQuery();
-                    System.out.println(stsql);
                     break;
             }
 
@@ -78,13 +68,15 @@ public final class SeleccionarProductosBaja extends javax.swing.JInternalFrame {
                 fila[0] = rs.getString("idproductos");
                 fila[1] = rs.getString("codigo");
                 fila[2] = rs.getString("productos");
-
+                fila[3] = rs.getString("fechavencimiento");
+                fila[4] = rs.getString("fecha");
+                
                 model.addRow(fila);
             }
-            tblSeleccionarProductos.setModel(model);
+            tblSeleccionar.setModel(model);
 
             JTableHeader th;
-            th = tblSeleccionarProductos.getTableHeader();
+            th = tblSeleccionar.getTableHeader();
             Font fuente = new Font("Tahoma", Font.BOLD, 14);
             th.setFont(fuente);
         } catch (SQLException e) {
@@ -93,9 +85,9 @@ public final class SeleccionarProductosBaja extends javax.swing.JInternalFrame {
     }
 
     public void ocultar_columnas() {
-        tblSeleccionarProductos.getColumnModel().getColumn(0).setMaxWidth(0);
-        tblSeleccionarProductos.getColumnModel().getColumn(0).setMinWidth(0);
-        tblSeleccionarProductos.getColumnModel().getColumn(0).setPreferredWidth(0);
+        tblSeleccionar.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblSeleccionar.getColumnModel().getColumn(0).setMinWidth(0);
+        tblSeleccionar.getColumnModel().getColumn(0).setPreferredWidth(0);
     }
 
     /**
@@ -113,7 +105,7 @@ public final class SeleccionarProductosBaja extends javax.swing.JInternalFrame {
         txtCodigo = new javax.swing.JTextField();
         txtProductos = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblSeleccionarProductos = new javax.swing.JTable();
+        tblSeleccionar = new javax.swing.JTable();
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 30)); // NOI18N
         jLabel1.setText("Seleccionar Producto");
@@ -172,12 +164,12 @@ public final class SeleccionarProductosBaja extends javax.swing.JInternalFrame {
             }
         });
 
-        tblSeleccionarProductos = new javax.swing.JTable(){
+        tblSeleccionar = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
                 return false;
             }
         };
-        tblSeleccionarProductos.setModel(new javax.swing.table.DefaultTableModel(
+        tblSeleccionar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -188,7 +180,12 @@ public final class SeleccionarProductosBaja extends javax.swing.JInternalFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(tblSeleccionarProductos);
+        tblSeleccionar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSeleccionarMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblSeleccionar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -296,13 +293,21 @@ public final class SeleccionarProductosBaja extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_txtCodigoKeyTyped
 
+    private void tblSeleccionarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSeleccionarMouseClicked
+        int seleccionar = tblSeleccionar.rowAtPoint(evt.getPoint());
+
+        if (evt.getClickCount() == 2) {
+
+        }
+    }//GEN-LAST:event_tblSeleccionarMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblSeleccionarProductos;
+    private javax.swing.JTable tblSeleccionar;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtProductos;
     // End of variables declaration//GEN-END:variables

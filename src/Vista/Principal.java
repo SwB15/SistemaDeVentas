@@ -280,6 +280,7 @@ public final class Principal extends javax.swing.JFrame {
         smnuAbrirCaja = new javax.swing.JMenuItem();
         smnuCerrarCaja = new javax.swing.JMenuItem();
         smnuMovimientos = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         mnuVentas = new javax.swing.JMenu();
         smnuVentas = new javax.swing.JMenuItem();
         smnuListaVentas = new javax.swing.JMenuItem();
@@ -563,6 +564,8 @@ public final class Principal extends javax.swing.JFrame {
         });
         mnuProductos.add(smnuListaProductos);
 
+        smnuBaja.setBackground(new java.awt.Color(255, 255, 255));
+        smnuBaja.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         smnuBaja.setText("Baja de Productos");
         smnuBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -571,6 +574,8 @@ public final class Principal extends javax.swing.JFrame {
         });
         mnuProductos.add(smnuBaja);
 
+        smnuDescuentos.setBackground(new java.awt.Color(255, 255, 255));
+        smnuDescuentos.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         smnuDescuentos.setText("Descuentos");
         smnuDescuentos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -696,6 +701,9 @@ public final class Principal extends javax.swing.JFrame {
             }
         });
         mnuCaja.add(smnuMovimientos);
+
+        jMenuItem2.setText("Cuentas");
+        mnuCaja.add(jMenuItem2);
 
         jMenuBar1.add(mnuCaja);
 
@@ -1470,6 +1478,7 @@ public final class Principal extends javax.swing.JFrame {
     public static javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

@@ -42,12 +42,13 @@ public final class Descuentos extends javax.swing.JInternalFrame {
         this.setBackground(new Color(0, 0, 0, 0));
         this.setIconifiable(false);
         this.setBorder(null);
-        
+
         rbtnActivo.doClick();
         mostrar("");
         botonesTransparentes();
         inhabilitar();
         txtCantidad.setEditable(false);
+        txtCantidad.setText("0");
         txtCantidad.setBackground(Color.white);
     }
 
@@ -65,7 +66,7 @@ public final class Descuentos extends javax.swing.JInternalFrame {
             columnModel.getColumn(5).setPreferredWidth(20);
             columnModel.getColumn(6).setPreferredWidth(20);
             columnModel.getColumn(7).setPreferredWidth(20);
-            
+
             ocultar_columnas();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -81,7 +82,7 @@ public final class Descuentos extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    
+
     public void botonesTransparentes() {
         btnGuardar.setOpaque(false);
         btnGuardar.setContentAreaFilled(false);
@@ -90,11 +91,11 @@ public final class Descuentos extends javax.swing.JInternalFrame {
         btnSeleccionar.setOpaque(false);
         btnSeleccionar.setContentAreaFilled(false);
         btnSeleccionar.setBorderPainted(false);
-        
+
         btnNuevo.setOpaque(false);
         btnNuevo.setContentAreaFilled(false);
         btnNuevo.setBorderPainted(false);
-        
+
         btnAnular.setOpaque(false);
         btnAnular.setContentAreaFilled(false);
         btnAnular.setBorderPainted(false);
@@ -135,6 +136,11 @@ public final class Descuentos extends javax.swing.JInternalFrame {
         rbtnActivo.setEnabled(false);
         rbtnInactivo.setEnabled(false);
         txtCantidad.setEditable(false);
+        
+        btnSeleccionar.setEnabled(false);
+        btnGuardar.setEnabled(false);
+        btnAnular.setEnabled(false);
+        btnNuevo.setEnabled(true);
     }
 
     private void limpiarTextFields() {
@@ -146,7 +152,7 @@ public final class Descuentos extends javax.swing.JInternalFrame {
         dchFechainicio.setCalendar(null);
         dchFechacierre.setCalendar(null);
         atxtDescripcion.setText("");
-        txtCantidad.setText("");
+        txtCantidad.setText("0");
 
     }
 
@@ -159,6 +165,11 @@ public final class Descuentos extends javax.swing.JInternalFrame {
         rbtnActivo.setEnabled(true);
         rbtnInactivo.setEnabled(true);
         txtCantidad.setEditable(true);
+        
+        btnSeleccionar.setEnabled(true);
+        btnGuardar.setEnabled(true);
+        btnAnular.setEnabled(true);
+        btnNuevo.setEnabled(false);
     }
 
     /**
@@ -479,13 +490,23 @@ public final class Descuentos extends javax.swing.JInternalFrame {
         txtCantidad.setText(String.valueOf(tblDescuentos.getValueAt(seleccionar, 6)));
 
         //Se hace click en el estado
-        if (String.valueOf(tblDescuentos.getValueAt(seleccionar, 7)).equals("Activo")) {
-            rbtnActivo.doClick();
-        } else if (String.valueOf(tblDescuentos.getValueAt(seleccionar, 7)).equals("Inactivo")) {
-            rbtnInactivo.doClick();
+        switch (String.valueOf(tblDescuentos.getValueAt(seleccionar, 7))) {
+            case "Activo":
+                rbtnActivo.doClick();
+                habilitar();
+                break;
+            case "Inactivo":
+                rbtnInactivo.doClick();
+                habilitar();
+                break;
+            case "Anulado":
+                rbtnInactivo.doClick();
+                inhabilitar();
+                break;
+            default:
+                break;
         }
 
-        habilitar();
         mostrarDetalles(Integer.parseInt(txtIddescuentos.getText()));
         revisarDetalles();
     }//GEN-LAST:event_tblDescuentosMouseClicked
@@ -832,13 +853,13 @@ public final class Descuentos extends javax.swing.JInternalFrame {
                     break;
             }
         } else {
-            mensaje = "Descuento no guardado";
+            mensaje = "Descuento no editado";
             fallo();
             mostrar("");
         }
     }
-    
-    public void anular(){
+
+    public void anular() {
         if (txtNombre.getText().length() == 0) {
             mensaje = "Debes seleccionar primero un Descuento a anular.";
             advertencia();
@@ -849,23 +870,114 @@ public final class Descuentos extends javax.swing.JInternalFrame {
             aceptarCancelar();
             String reply = Principal.txtAceptarCancelar.getText();
             if (reply.equals("1")) {
-                datos.setEstado("Anulado");
                 datos.setIddescuentos(Integer.parseInt(txtIddescuentos.getText()));
+                datos.setEstado("Anulado");
 
                 if (funcion.editar(datos)) {
                     mensaje = "Descuento anulado correctamente.";
                     realizado();
-                    
+
                     mostrar("");
                     inhabilitar();
                     limpiarTextFields();
-                    
+
 //                    String usuario = Principal.lblUsuario.getText();
 //                    String objeto = txtNombre.getText();
 //                    String Accion = "Anular Descuento";
 //                    audi.audiusuarios(usuario, objeto, Accion);
                 } else {
                     mensaje = "Ha ocurrido un error al anular el Descuento.";
+                    fallo();
+                    mostrar("");
+                }
+
+                datos.setIddescuentos(Integer.parseInt(txtIddescuentos.getText()));
+
+                //Convertir Fecha Inicio de java.util.date a java.sql.date
+                try {
+                    date = dchFechainicio.getDate();
+                    SimpleDateFormat plantilla = new SimpleDateFormat("dd/MM/yyyy");
+                    String tiempo = plantilla.format(date);
+
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    Date parsed = format.parse(tiempo);
+                    sql = new java.sql.Date(parsed.getTime());
+                } catch (ParseException ex) {
+                    Logger.getLogger(Descuentos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                datos.setFechainicio(sql);
+
+                //Convertir Fecha Cierre de java.util.date a java.sql.date
+                try {
+                    date = dchFechacierre.getDate();
+                    SimpleDateFormat plantilla = new SimpleDateFormat("dd/MM/yyyy");
+                    String tiempo = plantilla.format(date);
+
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    Date parsed = format.parse(tiempo);
+                    sql = new java.sql.Date(parsed.getTime());
+                } catch (ParseException ex) {
+                    Logger.getLogger(Descuentos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                datos.setNombredescuentos(txtNombre.getText());
+                datos.setDescuentos(Integer.parseInt(txtDescuentos.getText()));
+                datos.setFechacierre(sql);
+                datos.setCantidad(Integer.parseInt(txtCantidad.getText()));
+                datos.setDescripcion(atxtDescripcion.getText());
+
+                datosdetalle.setIddetalledescuentos(Integer.parseInt(txtIddetalledescuentos.getText()));
+
+                if (funcion.editar(datos)) {
+                    switch (txtTipo.getText()) {
+                        case "Clientes":
+                            fk_clientes = txtCodigo.getText();
+                            if (funcion.editarDetalleConClientes(datosdetalle, txtNombre.getText(), fk_clientes)) {
+                                mensaje = "Descuento anulado correctamente";
+                                realizado();
+                                mostrar("");
+                                inhabilitar();
+                                limpiarTextFields();
+                            } else {
+                                mensaje = "Descuento no anulado";
+                                fallo();
+                                mostrar("");
+                            }
+                            break;
+                        case "Categorias":
+                            fk_categorias = txtCodigo.getText();
+                            if (funcion.editarDetalleConCategorias(datosdetalle, Integer.parseInt(txtIddescuentos.getText()), Integer.parseInt(txtCodigo.getText()))) {
+                                mensaje = "Descuento anulado correctamente";
+                                realizado();
+                                mostrar("");
+                                inhabilitar();
+                                limpiarTextFields();
+                            } else {
+                                mensaje = "Descuento no anulado";
+                                fallo();
+                                mostrar("");
+                            }
+                            break;
+                        case "Productos":
+                            fk_productos = txtCodigo.getText();
+                            if (funcion.editarDetalleConProductos(datosdetalle, txtNombre.getText(), fk_productos)) {
+                                mensaje = "Descuento anulado correctamente";
+                                realizado();
+                                mostrar("");
+                                inhabilitar();
+                                limpiarTextFields();
+                            } else {
+                                mensaje = "Descuento no anulado";
+                                fallo();
+                                mostrar("");
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                } else {
+                    mensaje = "Descuento no anulado";
                     fallo();
                     mostrar("");
                 }
