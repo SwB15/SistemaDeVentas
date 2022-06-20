@@ -9,17 +9,17 @@ public class DatosCuentas {
     int idcuentas;
     String cuentas;
     String codigo;
-    String atxtDescripcion;
+    String descripcion;
     
     public DatosCuentas(){
         
     }
 
-    public DatosCuentas(int idcuentas, String cuentas, String codigo, String atxtDescripcion) {
+    public DatosCuentas(int idcuentas, String cuentas, String codigo, String descripcion) {
         this.idcuentas = idcuentas;
         this.cuentas = cuentas;
         this.codigo = codigo;
-        this.atxtDescripcion = atxtDescripcion;
+        this.descripcion = descripcion;
     }
 
     public int getIdcuentas() {
@@ -46,11 +46,11 @@ public class DatosCuentas {
         this.codigo = codigo;
     }
 
-    public String getAtxtDescripcion() {
-        return atxtDescripcion;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setAtxtDescripcion(String atxtDescripcion) {
-        this.atxtDescripcion = atxtDescripcion;
+    public void setDescripcion(String atxtDescripcion) {
+        this.descripcion = atxtDescripcion;
     }
 }

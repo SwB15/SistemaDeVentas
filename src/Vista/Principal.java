@@ -10,6 +10,7 @@ import Funciones.FuncionesCategorias;
 import Funciones.FuncionesDescuentos;
 import Funciones.FuncionesNotificaciones;
 import Reportes.Reportes;
+import Vista.Caja.Cuentas;
 import Vista.Caja.MovimientosCaja;
 import Vista.CompraVenta.Compras;
 import Vista.CompraVenta.ListaCompras;
@@ -74,11 +75,11 @@ public final class Principal extends javax.swing.JFrame {
     String fechaActual;
     static String[] titulos = {"Codigo", "Concepto", "Descripcion"};
     public static DefaultTableModel modelo = new DefaultTableModel(null, titulos);
-    
+
     public Principal() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
-        
+
         if (null == funcion.estadoCaja()) {
             mnuVentas.setEnabled(false);
             mnuCompras.setEnabled(false);
@@ -136,18 +137,18 @@ public final class Principal extends javax.swing.JFrame {
         lblProceso.setVisible(false);
         lblContadorNotificaciones.setText("0");
         txtContadorNotificaciones.setText("0");
-        
+
         categorias.mostrarDescuento("");
         control.mostrar("");
         funciones.mostrarFechas("");
-        
+
         control.cantidadMinima();
         funciones.descuentosVencidos();
         notificaciones.cont();
         lblContadorNotificaciones.setVisible(true);
         lblNotificaciones.setVisible(true);
     }
-    
+
     public void fecha() {
         fecha = new SimpleDateFormat("dd/MM/yyyy");
         txtFecha.setText(fecha.format(date));
@@ -703,6 +704,11 @@ public final class Principal extends javax.swing.JFrame {
         mnuCaja.add(smnuMovimientos);
 
         jMenuItem2.setText("Cuentas");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         mnuCaja.add(jMenuItem2);
 
         jMenuBar1.add(mnuCaja);
@@ -1225,7 +1231,7 @@ public final class Principal extends javax.swing.JFrame {
         if (!lblProceso.getText().equals("Proceso: ON")) {
             Notificaciones form = new Notificaciones();
             jDesktopPane1.add(form);
-            
+
             lblProceso.setText("Proceso: ON");
 
             form.setClosable(true);
@@ -1383,7 +1389,7 @@ public final class Principal extends javax.swing.JFrame {
         if (!lblProceso.getText().equals("Proceso: ON")) {
             Notificaciones form = new Notificaciones();
             jDesktopPane1.add(form);
-            
+
             lblProceso.setText("Proceso: ON");
 
             form.setClosable(true);
@@ -1406,6 +1412,34 @@ public final class Principal extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_lblContadorNotificacionesMouseClicked
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        if (!lblProceso.getText().equals("Proceso: ON")) {
+            Cuentas form = new Cuentas();
+            jDesktopPane1.add(form);
+
+            lblProceso.setText("Proceso: ON");
+
+            form.setClosable(true);
+            form.setIconifiable(true);
+            try {
+                Dimension desktopSize = jDesktopPane1.getSize();
+                Dimension FrameSize = form.getSize();
+                form.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+                form.show();
+            } catch (Exception e) {
+            }
+
+            form.toFront();
+            form.setVisible(true);
+            System.out.println("Antes de notificaciones.notificaciones");
+            Notificaciones.btnNotificacionesOculto.doClick();
+            this.setLocationRelativeTo(null);
+            this.setExtendedState(MAXIMIZED_BOTH);
+        } else {
+
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     //Metodos para llamar al JDialog Aceptar_Cancelar
     //Se le añade un Fondo diferente al de Eliminar (Se diferencian en el sombreado)

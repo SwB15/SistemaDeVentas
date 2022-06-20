@@ -6,7 +6,6 @@ import Vista.Notificaciones.Advertencia;
 import Vista.Notificaciones.Fallo;
 import Vista.Notificaciones.Realizado;
 import Vista.Principal;
-import java.awt.Color;
 import java.awt.Frame;
 import java.sql.Connection;
 import java.util.HashMap;
@@ -29,7 +28,7 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
 
     private final Conexion mysql = new Conexion();
     private final Connection cn = Conexion.getConnection();
-    
+
     public Reportes1() {
         initComponents();
         initComponents();
@@ -37,8 +36,76 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
 //        this.setBackground(new Color(0, 0, 0, 0));
 //        this.setIconifiable(false);
 //        this.setBorder(null);
-        
+
         botonesTransparentes();
+    }
+
+    private void validarCheckBox() {
+        //CheckBox de Categorias
+        if (chbCodigoCategorias.isSelected()) {
+            txtCodigoCategorias.setText("");
+            txtCodigoCategorias.setEditable(true); 
+        } else if (!chbCodigoCategorias.isSelected()) {
+            txtCodigoCategorias.setText("");
+            txtCodigoCategorias.setEditable(false);
+        }
+        
+        //CheckBox de Productos
+        if (chbCodigoCategorias.isSelected()) {
+            txtCodigoCategorias.setText("");
+            txtCodigoCategorias.setEditable(true);
+        } else if (!chbCodigoCategorias.isSelected()) {
+            txtCodigoCategorias.setText("");
+            txtCodigoCategorias.setEditable(false);
+        }
+        
+        if (chbCodigoCategorias.isSelected()) {
+            txtCodigoCategorias.setText("");
+            txtCodigoCategorias.setEditable(true);
+        } else if (!chbCodigoCategorias.isSelected()) {
+            txtCodigoCategorias.setText("");
+            txtCodigoCategorias.setEditable(false);
+        }
+        
+        if (chbCodigoCategorias.isSelected()) {
+            txtCodigoCategorias.setText("");
+            txtCodigoCategorias.setEditable(true);
+        } else if (!chbCodigoCategorias.isSelected()) {
+            txtCodigoCategorias.setText("");
+            txtCodigoCategorias.setEditable(false);
+        }
+        
+        if (chbCodigoCategorias.isSelected()) {
+            txtCodigoCategorias.setText("");
+            txtCodigoCategorias.setEditable(true);
+        } else if (!chbCodigoCategorias.isSelected()) {
+            txtCodigoCategorias.setText("");
+            txtCodigoCategorias.setEditable(false);
+        }
+        
+        if (chbCodigoCategorias.isSelected()) {
+            txtCodigoCategorias.setText("");
+            txtCodigoCategorias.setEditable(true);
+        } else if (!chbCodigoCategorias.isSelected()) {
+            txtCodigoCategorias.setText("");
+            txtCodigoCategorias.setEditable(false);
+        }
+        
+        if (chbCodigoCategorias.isSelected()) {
+            txtCodigoCategorias.setText("");
+            txtCodigoCategorias.setEditable(true);
+        } else if (!chbCodigoCategorias.isSelected()) {
+            txtCodigoCategorias.setText("");
+            txtCodigoCategorias.setEditable(false);
+        }
+        
+        if (chbCodigoCategorias.isSelected()) {
+            txtCodigoCategorias.setText("");
+            txtCodigoCategorias.setEditable(true);
+        } else if (!chbCodigoCategorias.isSelected()) {
+            txtCodigoCategorias.setText("");
+            txtCodigoCategorias.setEditable(false);
+        }
     }
 
     public void botonesTransparentes() {
@@ -57,16 +124,16 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
         btnClientes.setOpaque(false);
         btnClientes.setContentAreaFilled(false);
         btnClientes.setBorderPainted(false);
-        
+
         btnVentas.setOpaque(false);
         btnVentas.setContentAreaFilled(false);
         btnVentas.setBorderPainted(false);
-        
+
         btnCompras.setOpaque(false);
         btnCompras.setContentAreaFilled(false);
         btnCompras.setBorderPainted(false);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -76,6 +143,10 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        rbtngBuscarCategorias = new javax.swing.ButtonGroup();
+        rbtngBuscarProductos = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroup4 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         btnProductos = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -109,9 +180,43 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         dchHasta = new com.toedter.calendar.JDateChooser();
-        jLabel20 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         dchDesde = new com.toedter.calendar.JDateChooser();
+        jLabel21 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel20 = new javax.swing.JLabel();
+        txtCodigoCategorias = new javax.swing.JTextField();
+        jLabel26 = new javax.swing.JLabel();
+        txtCategorias = new javax.swing.JTextField();
+        jLabel22 = new javax.swing.JLabel();
+        chbNombreProductos = new javax.swing.JCheckBox();
+        chbCodigoCategorias = new javax.swing.JCheckBox();
+        chbCodigoProductos = new javax.swing.JCheckBox();
+        chbFechaCompra = new javax.swing.JCheckBox();
+        chbPrecioCompra = new javax.swing.JCheckBox();
+        chbCategorias = new javax.swing.JCheckBox();
+        chbPrecioVenta = new javax.swing.JCheckBox();
+        chbPorveedor = new javax.swing.JCheckBox();
+        chbFactura = new javax.swing.JCheckBox();
+        chbFechaVencimiento = new javax.swing.JCheckBox();
+        jPanel9 = new javax.swing.JPanel();
+        txtFactura = new javax.swing.JTextField();
+        jLabel28 = new javax.swing.JLabel();
+        txtFechaCompra = new javax.swing.JTextField();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        txtProveedor = new javax.swing.JTextField();
+        jLabel31 = new javax.swing.JLabel();
+        txtPrecioCompra = new javax.swing.JTextField();
+        jPanel8 = new javax.swing.JPanel();
+        txtCodigoProductos = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
+        txtProductos = new javax.swing.JTextField();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        txtPrecioVenta = new javax.swing.JTextField();
+        jLabel30 = new javax.swing.JLabel();
+        txtFechaVencimiento = new javax.swing.JTextField();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         setOpaque(true);
@@ -206,7 +311,7 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
         lblEncabezado.setFont(new java.awt.Font("Dialog", 1, 30)); // NOI18N
         lblEncabezado.setForeground(new java.awt.Color(255, 255, 255));
         lblEncabezado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblEncabezado.setText("Reportes");
+        lblEncabezado.setText("Productos");
         getContentPane().add(lblEncabezado, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 180, -1));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -286,16 +391,139 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
         jPanel7.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         getContentPane().add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 490, 180, 160));
-        getContentPane().add(dchHasta, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 110, 130, -1));
-
-        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel20.setText("Hasta:");
-        getContentPane().add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, -1));
+        getContentPane().add(dchHasta, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 80, 130, -1));
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel19.setText("Desde:");
         getContentPane().add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
         getContentPane().add(dchDesde, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, 130, -1));
+
+        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel21.setText("Hasta:");
+        getContentPane().add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 80, -1, -1));
+
+        jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel20.setText("Codigo:");
+        jPanel6.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+        jPanel6.add(txtCodigoCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 180, -1));
+
+        jLabel26.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel26.setText("Categoria:");
+        jPanel6.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
+        jPanel6.add(txtCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, 180, -1));
+
+        getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 580, 60));
+
+        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel22.setText("Buscar por:");
+        getContentPane().add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
+
+        rbtngBuscarProductos.add(chbNombreProductos);
+        chbNombreProductos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        chbNombreProductos.setText("Nom. Prod.");
+        getContentPane().add(chbNombreProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, -1, -1));
+
+        rbtngBuscarCategorias.add(chbCodigoCategorias);
+        chbCodigoCategorias.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        chbCodigoCategorias.setText("Cod. Cat.");
+        getContentPane().add(chbCodigoCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, -1, -1));
+
+        rbtngBuscarProductos.add(chbCodigoProductos);
+        chbCodigoProductos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        chbCodigoProductos.setText("Cod. Prod.");
+        getContentPane().add(chbCodigoProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, -1, -1));
+
+        chbFechaCompra.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        chbFechaCompra.setText("F. Compra");
+        getContentPane().add(chbFechaCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, -1, -1));
+
+        chbPrecioCompra.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        chbPrecioCompra.setText("P. Compra");
+        getContentPane().add(chbPrecioCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 120, -1, -1));
+
+        rbtngBuscarCategorias.add(chbCategorias);
+        chbCategorias.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        chbCategorias.setText("Categoria");
+        chbCategorias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbCategoriasActionPerformed(evt);
+            }
+        });
+        getContentPane().add(chbCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, -1, -1));
+
+        chbPrecioVenta.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        chbPrecioVenta.setText("P. Venta");
+        getContentPane().add(chbPrecioVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 140, -1, -1));
+
+        chbPorveedor.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        chbPorveedor.setText("Proveedor");
+        getContentPane().add(chbPorveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 140, -1, -1));
+
+        chbFactura.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        chbFactura.setText("Factura N°");
+        getContentPane().add(chbFactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 120, -1, -1));
+
+        chbFechaVencimiento.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        chbFechaVencimiento.setText("F. Vencim.");
+        chbFechaVencimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbFechaVencimientoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(chbFechaVencimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 140, -1, -1));
+
+        jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel9.add(txtFactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, 180, -1));
+
+        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel28.setText("F. Compra:");
+        jPanel9.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
+        jPanel9.add(txtFechaCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, 180, -1));
+
+        jLabel24.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel24.setText("Factura N°:");
+        jPanel9.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel25.setText("Proveedor:");
+        jPanel9.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
+        jPanel9.add(txtProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 180, -1));
+
+        jLabel31.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel31.setText("P. Compra");
+        jPanel9.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, -1, -1));
+        jPanel9.add(txtPrecioCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 50, 180, -1));
+
+        getContentPane().add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 580, 90));
+
+        jPanel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel8.add(txtCodigoProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 180, -1));
+
+        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel27.setText("Producto:");
+        jPanel8.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
+        jPanel8.add(txtProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, 180, -1));
+
+        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel23.setText("Codigo:");
+        jPanel8.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        jLabel29.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel29.setText("P. Venta:");
+        jPanel8.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
+        jPanel8.add(txtPrecioVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 180, -1));
+
+        jLabel30.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel30.setText("F. Venc.:");
+        jPanel8.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, -1, -1));
+        jPanel8.add(txtFechaVencimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 50, 180, -1));
+
+        getContentPane().add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 580, 90));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -304,13 +532,13 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
         JasperReport reporte;
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("", "");
-        try{
+        try {
             reporte = JasperCompileManager.compileReport("src/Reportes/ReporteProductos.jrxml");
             JasperPrint jp = JasperFillManager.fillReport(reporte, map, cn);
             JasperViewer view = new JasperViewer(jp, false);
             view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             view.setVisible(true);
-        }catch(JRException e){
+        } catch (JRException e) {
             JOptionPane.showMessageDialog(null, e);
             mensaje = "Error al generar reporte";
             fallo();
@@ -321,13 +549,13 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
         JasperReport reporte;
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("", "");
-        try{
+        try {
             reporte = JasperCompileManager.compileReport("src/Reportes/ReporteAuditoria.jrxml");
             JasperPrint jp = JasperFillManager.fillReport(reporte, map, cn);
             JasperViewer view = new JasperViewer(jp, false);
             view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             view.setVisible(true);
-        }catch(JRException e){
+        } catch (JRException e) {
             JOptionPane.showMessageDialog(null, e);
             mensaje = "Error al generar reporte";
             fallo();
@@ -338,13 +566,13 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
         JasperReport reporte;
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("", "");
-        try{
+        try {
             reporte = JasperCompileManager.compileReport("src/Reportes/ReporteServicios.jrxml");
             JasperPrint jp = JasperFillManager.fillReport(reporte, map, cn);
             JasperViewer view = new JasperViewer(jp, false);
             view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             view.setVisible(true);
-        }catch(JRException e){
+        } catch (JRException e) {
             JOptionPane.showMessageDialog(null, e);
             mensaje = "Error al generar reporte";
             fallo();
@@ -360,13 +588,13 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
         JasperReport reporte;
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("", "");
-        try{
+        try {
             reporte = JasperCompileManager.compileReport("src/Reportes/ReporteClientes.jrxml");
             JasperPrint jp = JasperFillManager.fillReport(reporte, map, cn);
             JasperViewer view = new JasperViewer(jp, false);
             view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             view.setVisible(true);
-        }catch(JRException e){
+        } catch (JRException e) {
             JOptionPane.showMessageDialog(null, e);
             mensaje = "Error al generar reporte";
             fallo();
@@ -377,13 +605,13 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
         JasperReport reporte;
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("", "");
-        try{
+        try {
             reporte = JasperCompileManager.compileReport("src/Reportes/ReporteVentas.jrxml");
             JasperPrint jp = JasperFillManager.fillReport(reporte, map, cn);
             JasperViewer view = new JasperViewer(jp, false);
             view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             view.setVisible(true);
-        }catch(JRException e){
+        } catch (JRException e) {
             JOptionPane.showMessageDialog(null, e);
             mensaje = "Error al generar reporte";
             fallo();
@@ -394,25 +622,33 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
         JasperReport reporte;
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("", "");
-        try{
+        try {
             reporte = JasperCompileManager.compileReport("src/Reportes/ReporteCompras.jrxml");
             JasperPrint jp = JasperFillManager.fillReport(reporte, map, cn);
             JasperViewer view = new JasperViewer(jp, false);
             view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             view.setVisible(true);
-        }catch(JRException e){
+        } catch (JRException e) {
             JOptionPane.showMessageDialog(null, e);
             mensaje = "Error al generar reporte";
             fallo();
         }
     }//GEN-LAST:event_btnComprasActionPerformed
 
+    private void chbFechaVencimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbFechaVencimientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chbFechaVencimientoActionPerformed
+
+    private void chbCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbCategoriasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chbCategoriasActionPerformed
+
     //Metodos para llamar a los JDialog de Advertencia, Fallo y Realizado
     Frame f = JOptionPane.getFrameForComponent(this);
     String mensaje;
     String encabezado;
     Icon icono;
-    
+
     public void advertencia() {
         Advertencia dialog = new Advertencia(f, true);
         Advertencia.lblEncabezado.setText(mensaje);
@@ -430,7 +666,7 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
         Realizado.lblEncabezado.setText(mensaje);
         dialog.setVisible(true);
     }
-    
+
     public void aceptarCancelar() {
         Aceptar_Cancelar dialog = new Aceptar_Cancelar(f, true);
         icono = new ImageIcon(getClass().getResource("/Imagenes/FondoNotificacionesAzul.png"));
@@ -447,6 +683,18 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnProductos;
     private javax.swing.JButton btnServicios;
     private javax.swing.JButton btnVentas;
+    private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
+    private javax.swing.JCheckBox chbCategorias;
+    private javax.swing.JCheckBox chbCodigoCategorias;
+    private javax.swing.JCheckBox chbCodigoProductos;
+    private javax.swing.JCheckBox chbFactura;
+    private javax.swing.JCheckBox chbFechaCompra;
+    private javax.swing.JCheckBox chbFechaVencimiento;
+    private javax.swing.JCheckBox chbNombreProductos;
+    private javax.swing.JCheckBox chbPorveedor;
+    private javax.swing.JCheckBox chbPrecioCompra;
+    private javax.swing.JCheckBox chbPrecioVenta;
     private com.toedter.calendar.JDateChooser dchDesde;
     private com.toedter.calendar.JDateChooser dchHasta;
     private javax.swing.JLabel jLabel1;
@@ -461,7 +709,18 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -473,9 +732,24 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblCerrar;
     private javax.swing.JLabel lblEncabezado;
     private javax.swing.JLabel lblFondoPaneles;
+    private javax.swing.ButtonGroup rbtngBuscarCategorias;
+    private javax.swing.ButtonGroup rbtngBuscarProductos;
+    private javax.swing.JTextField txtCategorias;
+    private javax.swing.JTextField txtCodigoCategorias;
+    private javax.swing.JTextField txtCodigoProductos;
+    private javax.swing.JTextField txtFactura;
+    private javax.swing.JTextField txtFechaCompra;
+    private javax.swing.JTextField txtFechaVencimiento;
+    private javax.swing.JTextField txtPrecioCompra;
+    private javax.swing.JTextField txtPrecioVenta;
+    private javax.swing.JTextField txtProductos;
+    private javax.swing.JTextField txtProveedor;
     // End of variables declaration//GEN-END:variables
 }
