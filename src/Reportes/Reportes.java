@@ -1,13 +1,18 @@
 package Reportes;
 
 import Controlador.Conexion;
+import Vista.Categorias;
 import Vista.Notificaciones.Aceptar_Cancelar;
 import Vista.Notificaciones.Advertencia;
 import Vista.Notificaciones.Fallo;
 import Vista.Notificaciones.Realizado;
 import Vista.Principal;
+import static Vista.Principal.jDesktopPane1;
+import static Vista.Principal.lblProceso;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Frame;
+import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
@@ -77,10 +82,10 @@ public final class Reportes extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        btnProductos = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         lblFondoPaneles = new javax.swing.JLabel();
+        btnProductos = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btnAuditoria = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -108,6 +113,7 @@ public final class Reportes extends javax.swing.JInternalFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+        btnProductos1 = new javax.swing.JButton();
         lblFondo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -117,14 +123,6 @@ public final class Reportes extends javax.swing.JInternalFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/BotonReportes.png"))); // NOI18N
-        btnProductos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProductosActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 130, 60));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -138,6 +136,14 @@ public final class Reportes extends javax.swing.JInternalFrame {
 
         lblFondoPaneles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoReportesPaneles.png"))); // NOI18N
         jPanel1.add(lblFondoPaneles, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, -1));
+
+        btnProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/BotonReportes.png"))); // NOI18N
+        btnProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProductosActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 130, 60));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 180, 160));
 
@@ -285,6 +291,14 @@ public final class Reportes extends javax.swing.JInternalFrame {
 
         getContentPane().add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 80, 180, 160));
 
+        btnProductos1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/BotonReportes.png"))); // NOI18N
+        btnProductos1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProductos1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnProductos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 280, 130, 60));
+
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoReportes.png"))); // NOI18N
         getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1170, -1));
 
@@ -398,6 +412,25 @@ public final class Reportes extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnComprasActionPerformed
 
+    private void btnProductos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductos1ActionPerformed
+        Reportes1 form = new Reportes1();
+        jDesktopPane1.add(form);
+        lblProceso.setText("Proceso: ON");
+
+        form.setClosable(true);
+        form.setIconifiable(true);
+        try {
+            Dimension desktopSize = jDesktopPane1.getSize();
+            Dimension FrameSize = form.getSize();
+            form.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+            form.show();
+        } catch (Exception e) {
+        }
+
+        form.toFront();
+        form.setVisible(true);
+    }//GEN-LAST:event_btnProductos1ActionPerformed
+
     //Metodos para llamar a los JDialog de Advertencia, Fallo y Realizado
     Frame f = JOptionPane.getFrameForComponent(this);
     String mensaje;
@@ -436,6 +469,7 @@ public final class Reportes extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnClientes;
     private javax.swing.JButton btnCompras;
     private javax.swing.JButton btnProductos;
+    private javax.swing.JButton btnProductos1;
     private javax.swing.JButton btnServicios;
     private javax.swing.JButton btnVentas;
     private javax.swing.JLabel jLabel1;

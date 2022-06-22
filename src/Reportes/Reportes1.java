@@ -5,20 +5,11 @@ import Vista.Notificaciones.Aceptar_Cancelar;
 import Vista.Notificaciones.Advertencia;
 import Vista.Notificaciones.Fallo;
 import Vista.Notificaciones.Realizado;
-import Vista.Principal;
 import java.awt.Frame;
 import java.sql.Connection;
-import java.util.HashMap;
-import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -38,100 +29,196 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
 //        this.setBorder(null);
 
         botonesTransparentes();
+        validarCheckBox();
     }
 
     private void validarCheckBox() {
-        //CheckBox de Categorias
+        //CheckBox de Codigo  Categorias
         if (chbCodigoCategorias.isSelected()) {
-            txtCodigoCategorias.setText("");
-            txtCodigoCategorias.setEditable(true); 
+            chbCategorias.setEnabled(false);
+            chbNombreProductos.setEnabled(false);
+            chbCodigoProductos.setEnabled(false);
+            chbFechaCompra.setEnabled(false);
+            chbFechaVencimiento.setEnabled(false);
+            chbPrecioCompra.setEnabled(false);
+            chbPrecioVenta.setEnabled(false);
+            chbFactura.setEnabled(false);
+            chbProveedor.setEnabled(false);
+
+            txtDesdeCategorias.setText("");
+            txtHastaCategorias.setText("");
+
+            txtDesdeCategorias.setEditable(true);
+            txtHastaCategorias.setEditable(true);
         } else if (!chbCodigoCategorias.isSelected()) {
-            txtCodigoCategorias.setText("");
-            txtCodigoCategorias.setEditable(false);
+            chbCategorias.setEnabled(true);
+            chbNombreProductos.setEnabled(true);
+            chbCodigoProductos.setEnabled(true);
+            chbFechaCompra.setEnabled(true);
+            chbFechaVencimiento.setEnabled(true);
+            chbPrecioCompra.setEnabled(true);
+            chbPrecioVenta.setEnabled(true);
+            chbFactura.setEnabled(true);
+            chbProveedor.setEnabled(true);
+
+            txtHastaCategorias.setText("");
+            txtDesdeCategorias.setText("");
+
+            txtDesdeCategorias.setEditable(false);
+            txtHastaCategorias.setEditable(false);
         }
-        
-        //CheckBox de Productos
-        if (chbCodigoCategorias.isSelected()) {
-            txtCodigoCategorias.setText("");
-            txtCodigoCategorias.setEditable(true);
-        } else if (!chbCodigoCategorias.isSelected()) {
-            txtCodigoCategorias.setText("");
-            txtCodigoCategorias.setEditable(false);
+
+        //CheckBox Categorias
+        if (chbCategorias.isSelected()) {
+            chbCodigoCategorias.setEnabled(false);
+            chbNombreProductos.setEnabled(false);
+            chbCodigoProductos.setEnabled(false);
+            chbFechaCompra.setEnabled(false);
+            chbFechaVencimiento.setEnabled(false);
+            chbPrecioCompra.setEnabled(false);
+            chbPrecioVenta.setEnabled(false);
+            chbFactura.setEnabled(false);
+            chbProveedor.setEnabled(false);
+
+            txtCategorias.setText("");
+            txtCategorias.setEditable(true);
+        } else if (!chbCategorias.isSelected()) {
+            chbCodigoCategorias.setEnabled(true);
+            chbNombreProductos.setEnabled(true);
+            chbCodigoProductos.setEnabled(true);
+            chbFechaCompra.setEnabled(true);
+            chbFechaVencimiento.setEnabled(true);
+            chbPrecioCompra.setEnabled(true);
+            chbPrecioVenta.setEnabled(true);
+            chbFactura.setEnabled(true);
+            chbProveedor.setEnabled(true);
+
+            txtCategorias.setText("");
+            txtCategorias.setEditable(false);
         }
-        
-        if (chbCodigoCategorias.isSelected()) {
-            txtCodigoCategorias.setText("");
-            txtCodigoCategorias.setEditable(true);
-        } else if (!chbCodigoCategorias.isSelected()) {
-            txtCodigoCategorias.setText("");
-            txtCodigoCategorias.setEditable(false);
+
+        //CheckBox Productos
+        if (chbNombreProductos.isSelected()) {
+            chbCategorias.setEnabled(true);
+            chbCodigoCategorias.setEnabled(true);
+            chbCodigoProductos.setEnabled(true);
+
+            chbFechaCompra.setEnabled(true);
+            chbFechaVencimiento.setEnabled(true);
+            chbPrecioCompra.setEnabled(true);
+            chbPrecioVenta.setEnabled(true);
+            chbFactura.setEnabled(true);
+            chbProveedor.setEnabled(true);
+
+            txtProductos.setText("");
+            txtProductos.setEditable(true);
+        } else if (!chbNombreProductos.isSelected()) {
+            chbCategorias.setEnabled(true);
+            chbCodigoCategorias.setEnabled(true);
+            chbNombreProductos.setEnabled(true);
+            chbFechaCompra.setEnabled(true);
+            chbFechaVencimiento.setEnabled(true);
+            chbPrecioCompra.setEnabled(true);
+            chbPrecioVenta.setEnabled(true);
+            chbFactura.setEnabled(true);
+            chbProveedor.setEnabled(true);
+
+            txtProductos.setText("");
+            txtProductos.setEditable(false);
         }
-        
-        if (chbCodigoCategorias.isSelected()) {
-            txtCodigoCategorias.setText("");
-            txtCodigoCategorias.setEditable(true);
-        } else if (!chbCodigoCategorias.isSelected()) {
-            txtCodigoCategorias.setText("");
-            txtCodigoCategorias.setEditable(false);
+
+        //CheckBox Codigo Productos
+        if (chbCodigoProductos.isSelected()) {
+            txtDesdeProductos.setText("");
+            txtDesdeProductos.setEditable(true);
+            txtHastaProductos.setText("");
+            txtHastaProductos.setEditable(true);
+        } else if (!chbCodigoProductos.isSelected()) {
+            txtDesdeProductos.setText("");
+            txtDesdeProductos.setEditable(false);
+            txtHastaProductos.setText("");
+            txtHastaProductos.setEditable(false);
         }
-        
-        if (chbCodigoCategorias.isSelected()) {
-            txtCodigoCategorias.setText("");
-            txtCodigoCategorias.setEditable(true);
-        } else if (!chbCodigoCategorias.isSelected()) {
-            txtCodigoCategorias.setText("");
-            txtCodigoCategorias.setEditable(false);
+
+        //CheckBox Fecha Compra
+        if (chbFechaCompra.isSelected()) {
+            txtFechaCompra.setText("");
+            txtFechaCompra.setEditable(true);
+        } else if (!chbFechaCompra.isSelected()) {
+            txtFechaCompra.setText("");
+            txtFechaCompra.setEditable(false);
         }
-        
-        if (chbCodigoCategorias.isSelected()) {
-            txtCodigoCategorias.setText("");
-            txtCodigoCategorias.setEditable(true);
-        } else if (!chbCodigoCategorias.isSelected()) {
-            txtCodigoCategorias.setText("");
-            txtCodigoCategorias.setEditable(false);
+
+        //CheckBox Fecha Vencimiento
+        if (chbFechaVencimiento.isSelected()) {
+            txtFechaVencimiento.setText("");
+            txtFechaVencimiento.setEditable(true);
+        } else if (!chbFechaVencimiento.isSelected()) {
+            txtFechaVencimiento.setText("");
+            txtFechaVencimiento.setEditable(false);
         }
-        
-        if (chbCodigoCategorias.isSelected()) {
-            txtCodigoCategorias.setText("");
-            txtCodigoCategorias.setEditable(true);
-        } else if (!chbCodigoCategorias.isSelected()) {
-            txtCodigoCategorias.setText("");
-            txtCodigoCategorias.setEditable(false);
+
+        //CheckBox Precio Compra
+        if (chbPrecioCompra.isSelected()) {
+            txtPrecioCompra.setText("");
+            txtPrecioCompra.setEditable(true);
+        } else if (!chbPrecioCompra.isSelected()) {
+            txtPrecioCompra.setText("");
+            txtPrecioCompra.setEditable(false);
         }
-        
-        if (chbCodigoCategorias.isSelected()) {
-            txtCodigoCategorias.setText("");
-            txtCodigoCategorias.setEditable(true);
-        } else if (!chbCodigoCategorias.isSelected()) {
-            txtCodigoCategorias.setText("");
-            txtCodigoCategorias.setEditable(false);
+
+        //CheckBox Precio Venta
+        if (chbPrecioVenta.isSelected()) {
+            txtPrecioVenta.setText("");
+            txtPrecioVenta.setEditable(true);
+        } else if (!chbPrecioVenta.isSelected()) {
+            txtPrecioVenta.setText("");
+            txtPrecioVenta.setEditable(false);
+        }
+
+        //CheckBox Factura
+        if (chbFactura.isSelected()) {
+            txtFactura.setText("");
+            txtFactura.setEditable(true);
+        } else if (!chbFactura.isSelected()) {
+            txtFactura.setText("");
+            txtFactura.setEditable(false);
+        }
+
+        //CheckBox Proveedor
+        if (chbProveedor.isSelected()) {
+            txtProveedor.setText("");
+            txtProveedor.setEditable(true);
+        } else if (!chbProveedor.isSelected()) {
+            txtProveedor.setText("");
+            txtProveedor.setEditable(false);
         }
     }
 
     public void botonesTransparentes() {
-        btnProductos.setOpaque(false);
-        btnProductos.setContentAreaFilled(false);
-        btnProductos.setBorderPainted(false);
-
-        btnAuditoria.setOpaque(false);
-        btnAuditoria.setContentAreaFilled(false);
-        btnAuditoria.setBorderPainted(false);
-
-        btnServicios.setOpaque(false);
-        btnServicios.setContentAreaFilled(false);
-        btnServicios.setBorderPainted(false);
-
-        btnClientes.setOpaque(false);
-        btnClientes.setContentAreaFilled(false);
-        btnClientes.setBorderPainted(false);
-
-        btnVentas.setOpaque(false);
-        btnVentas.setContentAreaFilled(false);
-        btnVentas.setBorderPainted(false);
-
-        btnCompras.setOpaque(false);
-        btnCompras.setContentAreaFilled(false);
-        btnCompras.setBorderPainted(false);
+//        btnProductos.setOpaque(false);
+//        btnProductos.setContentAreaFilled(false);
+//        btnProductos.setBorderPainted(false);
+//
+//        btnAuditoria.setOpaque(false);
+//        btnAuditoria.setContentAreaFilled(false);
+//        btnAuditoria.setBorderPainted(false);
+//
+//        btnServicios.setOpaque(false);
+//        btnServicios.setContentAreaFilled(false);
+//        btnServicios.setBorderPainted(false);
+//
+//        btnClientes.setOpaque(false);
+//        btnClientes.setContentAreaFilled(false);
+//        btnClientes.setBorderPainted(false);
+//
+//        btnVentas.setOpaque(false);
+//        btnVentas.setContentAreaFilled(false);
+//        btnVentas.setBorderPainted(false);
+//
+//        btnCompras.setOpaque(false);
+//        btnCompras.setContentAreaFilled(false);
+//        btnCompras.setBorderPainted(false);
     }
 
     /**
@@ -143,51 +230,18 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        rbtngBuscarCategorias = new javax.swing.ButtonGroup();
-        rbtngBuscarProductos = new javax.swing.ButtonGroup();
-        buttonGroup3 = new javax.swing.ButtonGroup();
-        buttonGroup4 = new javax.swing.ButtonGroup();
-        jPanel1 = new javax.swing.JPanel();
-        btnProductos = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        lblFondoPaneles = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        btnAuditoria = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        btnServicios = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        lblCerrar = new javax.swing.JLabel();
         lblEncabezado = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        btnClientes = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        btnVentas = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
-        btnCompras = new javax.swing.JButton();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
         dchHasta = new com.toedter.calendar.JDateChooser();
         jLabel19 = new javax.swing.JLabel();
         dchDesde = new com.toedter.calendar.JDateChooser();
         jLabel21 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
-        txtCodigoCategorias = new javax.swing.JTextField();
+        txtHastaCategorias = new javax.swing.JTextField();
         jLabel26 = new javax.swing.JLabel();
         txtCategorias = new javax.swing.JTextField();
+        txtDesdeCategorias = new javax.swing.JTextField();
+        jLabel32 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         chbNombreProductos = new javax.swing.JCheckBox();
         chbCodigoCategorias = new javax.swing.JCheckBox();
@@ -196,7 +250,7 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
         chbPrecioCompra = new javax.swing.JCheckBox();
         chbCategorias = new javax.swing.JCheckBox();
         chbPrecioVenta = new javax.swing.JCheckBox();
-        chbPorveedor = new javax.swing.JCheckBox();
+        chbProveedor = new javax.swing.JCheckBox();
         chbFactura = new javax.swing.JCheckBox();
         chbFechaVencimiento = new javax.swing.JCheckBox();
         jPanel9 = new javax.swing.JPanel();
@@ -209,7 +263,7 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
         jLabel31 = new javax.swing.JLabel();
         txtPrecioCompra = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
-        txtCodigoProductos = new javax.swing.JTextField();
+        txtDesdeProductos = new javax.swing.JTextField();
         jLabel27 = new javax.swing.JLabel();
         txtProductos = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
@@ -217,180 +271,20 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
         txtPrecioVenta = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
         txtFechaVencimiento = new javax.swing.JTextField();
+        jLabel33 = new javax.swing.JLabel();
+        txtHastaProductos = new javax.swing.JTextField();
+        btnProductos1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         setOpaque(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/BotonReportes.png"))); // NOI18N
-        btnProductos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProductosActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 130, 60));
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Lista de Productos");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 150, -1));
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("en PDF");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, -1));
-
-        lblFondoPaneles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoReportesPaneles.png"))); // NOI18N
-        jPanel1.add(lblFondoPaneles, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, -1));
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 490, 180, 160));
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnAuditoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/BotonReportes.png"))); // NOI18N
-        btnAuditoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAuditoriaActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnAuditoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 130, 60));
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Lista de Auditoria");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 150, -1));
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("en PDF");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, -1));
-
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoReportesPaneles.png"))); // NOI18N
-        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, -1));
-
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 490, 180, 160));
-
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnServicios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/BotonReportes.png"))); // NOI18N
-        btnServicios.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnServiciosActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 130, 60));
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Lista de Servicios");
-        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 150, -1));
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("en PDF");
-        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, -1));
-
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoReportesPaneles.png"))); // NOI18N
-        jPanel3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 490, 180, 160));
-
-        lblCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Cerrar32.png"))); // NOI18N
-        lblCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCerrarMouseClicked(evt);
-            }
-        });
-        getContentPane().add(lblCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 14, -1, -1));
 
         lblEncabezado.setFont(new java.awt.Font("Dialog", 1, 30)); // NOI18N
         lblEncabezado.setForeground(new java.awt.Color(255, 255, 255));
         lblEncabezado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblEncabezado.setText("Productos");
         getContentPane().add(lblEncabezado, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 180, -1));
-
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/BotonReportes.png"))); // NOI18N
-        btnClientes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClientesActionPerformed(evt);
-            }
-        });
-        jPanel4.add(btnClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 130, 60));
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Lista de Clientes");
-        jPanel4.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 150, -1));
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("en PDF");
-        jPanel4.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, -1));
-
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoReportesPaneles.png"))); // NOI18N
-        jPanel4.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 490, 180, 160));
-
-        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/BotonReportes.png"))); // NOI18N
-        btnVentas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVentasActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnVentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 130, 60));
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Lista de Ventas");
-        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 150, -1));
-
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("en PDF");
-        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, -1));
-
-        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoReportesPaneles.png"))); // NOI18N
-        jPanel5.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 490, 180, 160));
-
-        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnCompras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/BotonReportes.png"))); // NOI18N
-        btnCompras.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnComprasActionPerformed(evt);
-            }
-        });
-        jPanel7.add(btnCompras, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 130, 60));
-
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("Lista de Compras");
-        jPanel7.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 150, -1));
-
-        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("en PDF");
-        jPanel7.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, -1));
-
-        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoReportesPaneles.png"))); // NOI18N
-        jPanel7.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        getContentPane().add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 490, 180, 160));
         getContentPane().add(dchHasta, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 80, 130, -1));
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -406,45 +300,71 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel20.setText("Codigo:");
-        jPanel6.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
-        jPanel6.add(txtCodigoCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 180, -1));
+        jLabel20.setText("Hasta:");
+        jPanel6.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, -1, -1));
+        jPanel6.add(txtHastaCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 50, 180, -1));
 
         jLabel26.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel26.setText("Categoria:");
-        jPanel6.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
-        jPanel6.add(txtCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, 180, -1));
+        jPanel6.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+        jPanel6.add(txtCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 180, -1));
+        jPanel6.add(txtDesdeCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 180, -1));
 
-        getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 580, 60));
+        jLabel32.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel32.setText("Desde:");
+        jPanel6.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
+
+        getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 580, 90));
 
         jLabel22.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel22.setText("Buscar por:");
         getContentPane().add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
 
-        rbtngBuscarProductos.add(chbNombreProductos);
         chbNombreProductos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         chbNombreProductos.setText("Nom. Prod.");
+        chbNombreProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbNombreProductosActionPerformed(evt);
+            }
+        });
         getContentPane().add(chbNombreProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, -1, -1));
 
-        rbtngBuscarCategorias.add(chbCodigoCategorias);
         chbCodigoCategorias.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         chbCodigoCategorias.setText("Cod. Cat.");
+        chbCodigoCategorias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbCodigoCategoriasActionPerformed(evt);
+            }
+        });
         getContentPane().add(chbCodigoCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, -1, -1));
 
-        rbtngBuscarProductos.add(chbCodigoProductos);
         chbCodigoProductos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         chbCodigoProductos.setText("Cod. Prod.");
+        chbCodigoProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbCodigoProductosActionPerformed(evt);
+            }
+        });
         getContentPane().add(chbCodigoProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, -1, -1));
 
         chbFechaCompra.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         chbFechaCompra.setText("F. Compra");
+        chbFechaCompra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbFechaCompraActionPerformed(evt);
+            }
+        });
         getContentPane().add(chbFechaCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, -1, -1));
 
         chbPrecioCompra.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         chbPrecioCompra.setText("P. Compra");
+        chbPrecioCompra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbPrecioCompraActionPerformed(evt);
+            }
+        });
         getContentPane().add(chbPrecioCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 120, -1, -1));
 
-        rbtngBuscarCategorias.add(chbCategorias);
         chbCategorias.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         chbCategorias.setText("Categoria");
         chbCategorias.addActionListener(new java.awt.event.ActionListener() {
@@ -456,14 +376,29 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
 
         chbPrecioVenta.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         chbPrecioVenta.setText("P. Venta");
+        chbPrecioVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbPrecioVentaActionPerformed(evt);
+            }
+        });
         getContentPane().add(chbPrecioVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 140, -1, -1));
 
-        chbPorveedor.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        chbPorveedor.setText("Proveedor");
-        getContentPane().add(chbPorveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 140, -1, -1));
+        chbProveedor.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        chbProveedor.setText("Proveedor");
+        chbProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbProveedorActionPerformed(evt);
+            }
+        });
+        getContentPane().add(chbProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 140, -1, -1));
 
         chbFactura.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         chbFactura.setText("Factura N°");
+        chbFactura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbFacturaActionPerformed(evt);
+            }
+        });
         getContentPane().add(chbFactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 120, -1, -1));
 
         chbFechaVencimiento.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -498,20 +433,20 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
         jPanel9.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, -1, -1));
         jPanel9.add(txtPrecioCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 50, 180, -1));
 
-        getContentPane().add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 580, 90));
+        getContentPane().add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, 580, 90));
 
         jPanel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel8.add(txtCodigoProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 180, -1));
+        jPanel8.add(txtDesdeProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, 180, -1));
 
         jLabel27.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel27.setText("Producto:");
-        jPanel8.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
-        jPanel8.add(txtProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, 180, -1));
+        jPanel8.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+        jPanel8.add(txtProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 180, -1));
 
         jLabel23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel23.setText("Codigo:");
-        jPanel8.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+        jLabel23.setText("Desde: ");
+        jPanel8.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 50, -1));
 
         jLabel29.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel29.setText("P. Venta:");
@@ -523,125 +458,83 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
         jPanel8.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, -1, -1));
         jPanel8.add(txtFechaVencimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 50, 180, -1));
 
-        getContentPane().add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 580, 90));
+        jLabel33.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel33.setText("Hasta:");
+        jPanel8.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 50, -1));
+        jPanel8.add(txtHastaProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, 180, -1));
+
+        getContentPane().add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 580, 120));
+
+        btnProductos1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/BotonReportes.png"))); // NOI18N
+        btnProductos1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProductos1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnProductos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 520, 130, 60));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
-        JasperReport reporte;
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("", "");
-        try {
-            reporte = JasperCompileManager.compileReport("src/Reportes/ReporteProductos.jrxml");
-            JasperPrint jp = JasperFillManager.fillReport(reporte, map, cn);
-            JasperViewer view = new JasperViewer(jp, false);
-            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            view.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e);
-            mensaje = "Error al generar reporte";
-            fallo();
-        }
-    }//GEN-LAST:event_btnProductosActionPerformed
-
-    private void btnAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAuditoriaActionPerformed
-        JasperReport reporte;
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("", "");
-        try {
-            reporte = JasperCompileManager.compileReport("src/Reportes/ReporteAuditoria.jrxml");
-            JasperPrint jp = JasperFillManager.fillReport(reporte, map, cn);
-            JasperViewer view = new JasperViewer(jp, false);
-            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            view.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e);
-            mensaje = "Error al generar reporte";
-            fallo();
-        }
-    }//GEN-LAST:event_btnAuditoriaActionPerformed
-
-    private void btnServiciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServiciosActionPerformed
-        JasperReport reporte;
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("", "");
-        try {
-            reporte = JasperCompileManager.compileReport("src/Reportes/ReporteServicios.jrxml");
-            JasperPrint jp = JasperFillManager.fillReport(reporte, map, cn);
-            JasperViewer view = new JasperViewer(jp, false);
-            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            view.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e);
-            mensaje = "Error al generar reporte";
-            fallo();
-        }
-    }//GEN-LAST:event_btnServiciosActionPerformed
-
-    private void lblCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarMouseClicked
-        Principal.lblProceso.setText("Proceso: OFF");
-        this.dispose();
-    }//GEN-LAST:event_lblCerrarMouseClicked
-
-    private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
-        JasperReport reporte;
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("", "");
-        try {
-            reporte = JasperCompileManager.compileReport("src/Reportes/ReporteClientes.jrxml");
-            JasperPrint jp = JasperFillManager.fillReport(reporte, map, cn);
-            JasperViewer view = new JasperViewer(jp, false);
-            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            view.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e);
-            mensaje = "Error al generar reporte";
-            fallo();
-        }
-    }//GEN-LAST:event_btnClientesActionPerformed
-
-    private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
-        JasperReport reporte;
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("", "");
-        try {
-            reporte = JasperCompileManager.compileReport("src/Reportes/ReporteVentas.jrxml");
-            JasperPrint jp = JasperFillManager.fillReport(reporte, map, cn);
-            JasperViewer view = new JasperViewer(jp, false);
-            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            view.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e);
-            mensaje = "Error al generar reporte";
-            fallo();
-        }
-    }//GEN-LAST:event_btnVentasActionPerformed
-
-    private void btnComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprasActionPerformed
-        JasperReport reporte;
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("", "");
-        try {
-            reporte = JasperCompileManager.compileReport("src/Reportes/ReporteCompras.jrxml");
-            JasperPrint jp = JasperFillManager.fillReport(reporte, map, cn);
-            JasperViewer view = new JasperViewer(jp, false);
-            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            view.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e);
-            mensaje = "Error al generar reporte";
-            fallo();
-        }
-    }//GEN-LAST:event_btnComprasActionPerformed
-
     private void chbFechaVencimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbFechaVencimientoActionPerformed
-        // TODO add your handling code here:
+        validarCheckBox();
     }//GEN-LAST:event_chbFechaVencimientoActionPerformed
 
     private void chbCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbCategoriasActionPerformed
-        // TODO add your handling code here:
+        validarCheckBox();
     }//GEN-LAST:event_chbCategoriasActionPerformed
+
+    private void chbFechaCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbFechaCompraActionPerformed
+        validarCheckBox();
+    }//GEN-LAST:event_chbFechaCompraActionPerformed
+
+    private void chbCodigoCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbCodigoCategoriasActionPerformed
+        validarCheckBox();
+    }//GEN-LAST:event_chbCodigoCategoriasActionPerformed
+
+    private void chbNombreProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbNombreProductosActionPerformed
+        validarCheckBox();
+    }//GEN-LAST:event_chbNombreProductosActionPerformed
+
+    private void chbCodigoProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbCodigoProductosActionPerformed
+        validarCheckBox();
+    }//GEN-LAST:event_chbCodigoProductosActionPerformed
+
+    private void chbPrecioCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbPrecioCompraActionPerformed
+        validarCheckBox();
+    }//GEN-LAST:event_chbPrecioCompraActionPerformed
+
+    private void chbPrecioVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbPrecioVentaActionPerformed
+        validarCheckBox();
+    }//GEN-LAST:event_chbPrecioVentaActionPerformed
+
+    private void chbFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbFacturaActionPerformed
+        validarCheckBox();
+    }//GEN-LAST:event_chbFacturaActionPerformed
+
+    private void chbProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbProveedorActionPerformed
+        validarCheckBox();
+    }//GEN-LAST:event_chbProveedorActionPerformed
+
+    private void btnProductos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductos1ActionPerformed
+//        Reportes1 form = new Reportes1();
+//        jDesktopPane1.add(form);
+//        lblProceso.setText("Proceso: ON");
+//
+//        form.setClosable(true);
+//        form.setIconifiable(true);
+//        try {
+//            Dimension desktopSize = jDesktopPane1.getSize();
+//            Dimension FrameSize = form.getSize();
+//            form.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+//            form.show();
+//        } catch (Exception e) {
+//        }
+//
+//        form.toFront();
+//        form.setVisible(true);
+    }//GEN-LAST:event_btnProductos1ActionPerformed
 
     //Metodos para llamar a los JDialog de Advertencia, Fallo y Realizado
     Frame f = JOptionPane.getFrameForComponent(this);
@@ -677,14 +570,7 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAuditoria;
-    private javax.swing.JButton btnClientes;
-    private javax.swing.JButton btnCompras;
-    private javax.swing.JButton btnProductos;
-    private javax.swing.JButton btnServicios;
-    private javax.swing.JButton btnVentas;
-    private javax.swing.ButtonGroup buttonGroup3;
-    private javax.swing.ButtonGroup buttonGroup4;
+    private javax.swing.JButton btnProductos1;
     private javax.swing.JCheckBox chbCategorias;
     private javax.swing.JCheckBox chbCodigoCategorias;
     private javax.swing.JCheckBox chbCodigoProductos;
@@ -692,22 +578,13 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
     private javax.swing.JCheckBox chbFechaCompra;
     private javax.swing.JCheckBox chbFechaVencimiento;
     private javax.swing.JCheckBox chbNombreProductos;
-    private javax.swing.JCheckBox chbPorveedor;
     private javax.swing.JCheckBox chbPrecioCompra;
     private javax.swing.JCheckBox chbPrecioVenta;
+    private javax.swing.JCheckBox chbProveedor;
     private com.toedter.calendar.JDateChooser dchDesde;
     private com.toedter.calendar.JDateChooser dchHasta;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -718,35 +595,22 @@ public final class Reportes1 extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JLabel lblCerrar;
     private javax.swing.JLabel lblEncabezado;
-    private javax.swing.JLabel lblFondoPaneles;
-    private javax.swing.ButtonGroup rbtngBuscarCategorias;
-    private javax.swing.ButtonGroup rbtngBuscarProductos;
     private javax.swing.JTextField txtCategorias;
-    private javax.swing.JTextField txtCodigoCategorias;
-    private javax.swing.JTextField txtCodigoProductos;
+    private javax.swing.JTextField txtDesdeCategorias;
+    private javax.swing.JTextField txtDesdeProductos;
     private javax.swing.JTextField txtFactura;
     private javax.swing.JTextField txtFechaCompra;
     private javax.swing.JTextField txtFechaVencimiento;
+    private javax.swing.JTextField txtHastaCategorias;
+    private javax.swing.JTextField txtHastaProductos;
     private javax.swing.JTextField txtPrecioCompra;
     private javax.swing.JTextField txtPrecioVenta;
     private javax.swing.JTextField txtProductos;
